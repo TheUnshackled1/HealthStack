@@ -1,7 +1,7 @@
 # HealthStack-System
 
 - An online platform that caters to multiple hospitals, enabling efficient tracking, monitoring, and sharing of patient health records between themselves. Patients can access information on various hospitals and doctors, book appointments online, purchase medicines from an online pharmacy, pay for laboratory tests via an integrated payment gateway, and even chat with their appointed doctors.
-- Software Engineering Project - B.Sc. in Computer Science and Engineering (CSE)
+- Software Engineering Project - Bachelor of Science in Information Systems
 
 ## Tech Stack and Tools used:
       1) Programming Language and Libraries: Django (Python web framework), Bootstrap, JavaScript, Ajax, Django REST framework.
@@ -90,11 +90,6 @@
       7) Start the application
             python manage.py runserver
             
-
-# MKDocs Documentation, Youtube Video and Presentation
-- [Youtube](https://youtu.be/TSR00OKBSCY) video link of MKDocs documentation on our Healthstack project.
-- [HeathStack Software - Presentation](https://github.com/Jawwad-Fida/HealthStack-System/files/13839586/HeathStack.Software.-.Presentation.pdf)
-- Checkout out the [MKdocs documentation](https://jawwad-fida.github.io/HealthStack-System/) to see screenshots of our project.
 
 # Some Screenshots
 
