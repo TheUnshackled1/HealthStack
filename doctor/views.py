@@ -400,7 +400,7 @@ def doctor_profile_settings(request):
       
             # context = {'degree': degree}
             messages.success(request, 'Profile Updated')
-            return redirect('doctor-dashboard')
+            return redirect('doctor-profile-settings')
     else:
         redirect('doctor-logout')
                
