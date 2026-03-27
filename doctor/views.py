@@ -400,7 +400,10 @@ def doctor_profile_settings(request):
       
             # context = {'degree': degree}
             messages.success(request, 'Profile Updated')
-            return redirect('doctor-profile-settings')
+            educations = Education.objects.filter(doctor=doctor)
+            experiences = Experience.objects.filter(doctor=doctor)
+            context = {'doctor': doctor, 'educations': educations, 'experiences': experiences}
+            return render(request, 'doctor-profile-settings.html', context)
     else:
         redirect('doctor-logout')
                
