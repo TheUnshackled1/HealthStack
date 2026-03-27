@@ -68,7 +68,6 @@
 										<div class="chat-scroll">
 
 										{% for d in doctor %} 
-										{% if not d.id == 1 and not d.id == user.id %}
 											<a href="{% url 'chat-home' pk=user.id %}?u={{d.user.id}}" class="media">
 												<div class="media-img-wrap">
 													{%if d.user.login_status%}
@@ -97,7 +96,6 @@
 													</div>
 												</div>
 											</a>
-										{%endif%}
 										{% endfor %}
 										</div>
 									</div>
@@ -193,13 +191,13 @@
 									
 									<div class="chat-box-form border-top p-2" style="height: 70px;">
 										<div class="w-100 h-100">
-											<form action="" id="chat-submit" class="h-100 d-flex ">
+											<form action="" method="POST" id="chat-submit" class="h-100 d-flex ">
 												<input type="hidden" name="user_from" value="{{ user.id }}">
 												<input type="hidden" name="user_to" value="{{ chat_id }}">
 												<div class="col-md-10 h-100">
 													<textarea name="message" id="" class="h-100 w-100 form-control" placeholder="Write your message here"></textarea>
 												</div>
-												<button class="button btn btn-rounded btn-info h-100 w-100 justify-content-center align-items-center d-flex"><i class="fab fa-telegram-plane"></i></button>
+												<button type="submit" class="button btn btn-rounded btn-info h-100 w-100 justify-content-center align-items-center d-flex"><i class="fab fa-telegram-plane"></i></button>
 											</form>
 										</div>
 									</div>
@@ -231,133 +229,41 @@
 		<!-- <script src="{% static 'HealthStack-System/Outside_assets/js/script.js' %}"></script> -->
 		<script>
 			$(function() {
-				$('div.dataTables_length select').addClass('text-dark')
-			})
-		</script>
-		<script>
-			$(function() {
 				if ($('.chat-bubble:last').length > 0) {
 					$('.chat-box').animate({
 						scrollTop: $('.chat-bubble:last').offset().top
 					}, 'fast')
 				}
-				$('#chat-submit').submit(function(e) {
+
+				$('#chat-submit').on('submit', function(e) {
 					e.preventDefault()
-					start_loader()
+					var form = $(this)
+					var messageBox = form.find('textarea[name="message"]')
+					if (!$.trim(messageBox.val())) {
+						return
+					}
+
 					$.ajax({
 						headers: {
 							"X-CSRFToken": '{{csrf_token}}'
 						},
 						url: "{% url 'chat-send' %}",
 						method: "POST",
-						data: $(this).serialize(),
+						data: form.serialize(),
 						dataType: "json",
-						error: err => {
-							console.log(err)
-							alert('an error occured')
-						},
 						success: function(resp) {
-							if (typeof resp == "object" && resp.status == 'success') {
-								location.reload()
+							if (resp && resp.status === 'success') {
+								window.location.href = "{% url 'chat-home' pk=user.id %}?u={{chat_id}}"
 							} else {
-								console.log(resp)
-								alert('an error occured')
+								alert('Unable to send message')
 							}
+						},
+						error: function() {
+							alert('Unable to send message')
 						}
 					})
-		
-		
-		
 				})
-				chats_renew()
-				setInterval(() => {
-					chats_renew()
-				}, 2500)
-		
 			})
-		
-			function chats_renew() {
-				var last_id = 0
-				if ($('.chat-bubble').length > 0)
-					last_id = $('.chat-bubble:last').attr('data-id')
-				$.ajax({
-					headers: {
-						"X-CSRFToken": '{{csrf_token}}'
-					},
-					url: "{% url 'chat-renew' %}",
-					method: "POST",
-					data: {
-						last_id: last_id,
-						user_id: '{{user.id}}',
-						chat_id: '{{chat_id}}'
-					},
-												
-					dataType: 'json',
-					error: err => {
-						console.log(err)
-							// alert('an error occured')
-					},
-					success: function(resp) {
-						if (Object.keys(resp).length > 0) {
-							Object.keys(resp).map(k => {
-								if (resp[k].id.user_from == '{{user.id}}') {
-									bubble = 
-									'<div class="chat-body">'+
-										'<div class="chat-scroll chat-box">'+
-									'<ul class="list-unstyled">'+
-									'<li class="media sent">'+
-													'<div class="media-body">'+	
-														'<div class="msg-box">'+
-															'<div class="chat-bubble" data-id="' + resp[k].id + '">'+
-																'<p>' + resp[k].message + '</p>'+
-																'<ul class="chat-msg-info">'+
-																	'<li>'+
-																		'<div class="chat-time">'+
-																			'<span>' + resp[k].date_created + '</span>'+
-																		'</div>'+
-																	'</li>'+
-																'</ul>'+
-															'</div>'+
-														'</div>'+
-														
-													'</div>'+
-												'</li>';                       
-								} else {
-									bubble =  '<div class="chat-body">'+
-										'<div class="chat-scroll chat-box">'+
-									'<ul class="list-unstyled">'+
-									'<li class="media received">'+
-													'<div class="avatar">'+
-														'<img src="{{ doc.featured_image.url }}" alt="User Image" class="avatar-img rounded-circle">'+
-													'</div>'+
-													'<div class="media-body">'+	
-														'<div class="msg-box">'+
-															'<div class="chat-bubble" data-id="' + resp[k].id + '">'+
-																'<p>' + resp[k].message + '</p>'+
-																'<ul class="chat-msg-info">'+
-																	'<li>'+
-																		'<div class="chat-time">'+
-																			'<span>' + resp[k].date_created + '</span>'+
-																		'</div>'+
-																	'</li>'+
-																'</ul>'+
-															'</div>'+
-														'</div>'+
-														
-													'</div>'+
-												'</li>';
-												
-								}
-								// console.log(bubble)
-								$('.chat-box').append(bubble)
-								$('.chat-box').animate({
-									scrollTop: $('.chat-bubble:last').offset().top * 1000
-								}, 'fast')
-							})
-						}
-					}
-				})
-			}
 		</script>
 		
 			

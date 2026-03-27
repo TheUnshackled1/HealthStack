@@ -28,7 +28,11 @@ def home(request,pk):
             patients = Patient.objects.get(user_id=pk)
             #doctor = Doctor_Information.objects.all()
             appointments = Appointment.objects.filter(patient=patients).filter(appointment_status='confirmed')
-            doctor= Doctor_Information.objects.filter(appointment__in=appointments)
+            doctor= Doctor_Information.objects.filter(appointment__in=appointments).distinct()
+
+            # Fallback: if no confirmed appointments yet, still allow patient to see doctors in chat list.
+            if not doctor.exists():
+                doctor = Doctor_Information.objects.exclude(user=request.user).distinct()
             
             chats = {}
             if request.method == 'GET' and 'u' in request.GET:
@@ -83,7 +87,11 @@ def home(request,pk):
             #patients = Patient.objects.all()
             doctor = Doctor_Information.objects.get(user_id=pk)
             appointments = Appointment.objects.filter(doctor=doctor).filter(appointment_status='confirmed')
-            patients= Patient.objects.filter(appointment__in=appointments)
+            patients= Patient.objects.filter(appointment__in=appointments).distinct()
+
+            # Fallback: if no confirmed appointments yet, still allow doctor to see patients in chat list.
+            if not patients.exists():
+                patients = Patient.objects.exclude(user=request.user).distinct()
 
             chats = {}
             if request.method == 'GET' and 'u' in request.GET:

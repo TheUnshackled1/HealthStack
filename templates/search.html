@@ -182,11 +182,19 @@
                           <li></li>
                           <li>
                             <i class="fas fa-map-marker-alt"></i>
-                            {{doctor.hospital_name}}
+                            {% if doctor.hospital_name and doctor.hospital_name.address %}
+                            {{ doctor.hospital_name.address }}
+                            {% else %}
+                            Talisay, Negros Occidental
+                            {% endif %}
                           </li>
                           <li>
                             <i class="far fa-money-bill-alt"></i>
-                            {{doctor.consultation_fee}} BDT
+                            {% if doctor.consultation_fee %}
+                            {{ doctor.consultation_fee }} BDT
+                            {% else %}
+                            Not set
+                            {% endif %}
                             
                           </li>
                         </ul>
