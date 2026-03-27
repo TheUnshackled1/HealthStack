@@ -94,7 +94,7 @@
       </div>
       <div class="header-contact-detail">
         <p class="contact-header">Contact</p>
-        <p class="contact-info-header">{% if patient.phone_number %}+880{{ patient.phone_number }}{% else %}Not set{% endif %}</p>
+        <p class="contact-info-header">{% if patient.phone_number %}{{ patient.phone_number }}{% else %}Not set{% endif %}</p>
       </div>
     </li>
     <!-- User Menu -->
