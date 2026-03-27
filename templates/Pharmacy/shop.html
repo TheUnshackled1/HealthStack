@@ -1,268 +1,163 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0" />
+    <title>HealthStack</title>
 
+    <link type="image/x-icon" href="{% static 'HealthStack-System/images/Normal/favicon.png' %}" rel="icon" />
+    <link rel="stylesheet" href="{% static 'HealthStack-System/css/Normal/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'HealthStack-System/plugins/Normal/fontawesome/css/fontawesome.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'HealthStack-System/plugins/Normal/fontawesome/css/all.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'HealthStack-System/css/Normal/style.css' %}" />
 
-<head>
-  
-  <title>HealthStack</title>
-  <!-- Favicons -->
-  <link type="image/x-icon" href="{% static 'HealthStack-System/images/Normal/favicon.png' %}" rel="icon" />
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:400,700" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Great+Vibes" rel="stylesheet">
-  <link rel="stylesheet" href="{% static 'HealthStack-System/Outside_assets/css/bootstrap.min.css' %}">
-  <link rel="stylesheet" href="{% static 'HealthStack-System/css/pharmacy/open-iconic-bootstrap.min.css' %}">
-  <link rel="stylesheet" href="{% static 'HealthStack-System/css/pharmacy/animate.css' %}">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
-  <link rel="stylesheet" href="{% static 'HealthStack-System/css/pharmacy/magnific-popup.css' %}">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
-  <link rel="stylesheet" href="{% static 'HealthStack-System/css/pharmacy/ionicons.min.css' %}">
-  <link rel="stylesheet" href="{% static 'HealthStack-System/css/pharmacy/bootstrap-datepicker.css' %}">
-  <link rel="stylesheet" href="{% static 'HealthStack-System/css/pharmacy/jquery.timepicker.css' %}">
-  <link rel="stylesheet" href="{% static 'HealthStack-System/css/pharmacy/flaticon.css' %}">
-  <link rel="stylesheet" href="{% static 'HealthStack-System/css/pharmacy/icomoon.css' %}">
-  <link rel="stylesheet" href="{% static 'HealthStack-System/css/pharmacy/style.css' %}">
-  <style>
-    body {
-      background: linear-gradient(180deg, #1f1a17 0%, #120f0f 100%) !important;
-      color: #e9e9e9;
-    }
+    <style>
+      .shop-tools {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+        justify-content: space-between;
+      }
 
-    .ftco-animate {
-      opacity: 1 !important;
-      visibility: visible !important;
-    }
-  </style>
-</head>
+      .shop-search {
+        width: 280px;
+      }
 
-<body>
+      .medicine-card {
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        overflow: hidden;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
 
-  <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
-    <div class="container">
-      <a class="navbar-brand" href="">Health Stack<small>Medical Shop</small></a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
-        aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="oi oi-menu"></span> Menu
-      </button>
-      <div class="collapse navbar-collapse" id="ftco-nav">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item"><a href="{% url 'patient-dashboard'%}" class="nav-link">Dashboard</a></li>
-          <!-- <li class="nav-item" ><a href="{% url 'cart' %}" class="nav-link" >Cart</a></li> -->
-          <!-- <li class="nav-item"><a href="{% url 'checkout' %}" class="nav-link">Checkout</a></li> -->
-          <li class="nav-item cart">
-            <a href="{% url 'cart' %}" class="nav-link">
-              <span class="icon icon-shopping_cart"></span>
-              <span class="bag d-flex justify-content-center align-items-center">
-                <small>{{order.count_cart_items}}</small>
-              </span>
-            </a>
-           
-          </li>
-          <div class="col-md-6 col-6 text-right">
-            <div class="top-nav-search">
-              <form action="{% url 'pharmacy_shop' %}" method="GET">
-                <input type="text" class="form-control" placeholder="Search medicine" name="search_query" value="{{search_query}}">
-              </form>
+      .medicine-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 24px rgba(18, 28, 45, 0.08);
+      }
+
+      .medicine-image {
+        width: 100%;
+        height: 210px;
+        object-fit: cover;
+        background: #f8fafc;
+      }
+
+      .medicine-price {
+        color: #0a58ca;
+        font-weight: 600;
+        margin-bottom: 12px;
+      }
+
+      @media (max-width: 767px) {
+        .shop-search {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="main-wrapper">
+      <header class="header">{% include 'patient_navbar.html' %}</header>
+
+      <div class="breadcrumb-bar">
+        <div class="container-fluid">
+          <div class="row align-items-center">
+            <div class="col-md-12 col-12">
+              <nav aria-label="breadcrumb" class="page-breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="{% url 'patient-dashboard' %}">Home</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Medical Shop</li>
+                </ol>
+              </nav>
+              <h2 class="breadcrumb-title">Medical Shop</h2>
+              {% include 'message.html' %}
             </div>
           </div>
-        </ul>
+        </div>
       </div>
-    </div>
-  </nav>
 
-  <section class="ftco-menu mb-5 pb-5">
-    <div class="container">
-      <div class="row d-md-flex">
-        <div class="col-lg-12 ftco-animate p-md-5">
+      <div class="content">
+        <div class="container-fluid">
           <div class="row">
-            <div class="col-md-12 nav-link-wrap mb-5">
-              <div class="nav ftco-animate nav-pills justify-content-center" id="v-pills-tab" role="tablist"
-                aria-orientation="vertical">
-                <a class="nav-link active" id="v-pills-0-tab" data-toggle="pill" href="#v-pills-0" role="tab"
-                  aria-controls="v-pills-0" aria-selected="true">All Medicine</a>
-                <!-- <a class="nav-link" id="v-pills-1-tab" data-toggle="pill" href="#v-pills-1" role="tab"
-                  aria-controls="v-pills-1" aria-selected="false">Fever & Pain</a>
-                <a class="nav-link" id="v-pills-2-tab" data-toggle="pill" href="#v-pills-2" role="tab"
-                  aria-controls="v-pills-2" aria-selected="false">Digestive Health</a>
-                <a class="nav-link" id="v-pills-3-tab" data-toggle="pill" href="#v-pills-3" role="tab"
-                  aria-controls="v-pills-3" aria-selected="false">Blood Pressure & Heart Disease</a>
-                <a class="nav-link" id="v-pills-3-tab" data-toggle="pill" href="#v-pills-3" role="tab"
-                aria-controls="v-pills-3" aria-selected="false">Cough, Flue & cold</a> -->
-              </div>
+            <div class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
+              <div>{% include 'patient-sidebar.html' %}</div>
             </div>
-            <div class="col-md-12 d-flex align-items-center">
-              <div class="tab-content ftco-animate" id="v-pills-tabContent">
 
+            <div class="col-md-7 col-lg-8 col-xl-9">
+              <div class="card">
+                <div class="card-body">
+                  <div class="shop-tools mb-4">
+                    <h4 class="mb-0">Available Medicines</h4>
 
-                <div class="tab-pane fade show active" id="v-pills-0" role="tabpanel" aria-labelledby="v-pills-1-tab">
+                    <div class="d-flex" style="gap: 10px; align-items: center;">
+                      <form action="{% url 'pharmacy_shop' %}" method="GET" class="shop-search">
+                        <input
+                          type="text"
+                          class="form-control"
+                          placeholder="Search medicine"
+                          name="search_query"
+                          value="{{ search_query }}"
+                        />
+                      </form>
+
+                      <a href="{% url 'cart' %}" class="btn btn-primary">
+                        <i class="fas fa-shopping-cart"></i>
+                        Cart
+                        {% if order %}
+                          ({{ order.count_cart_items }})
+                        {% else %}
+                          (0)
+                        {% endif %}
+                      </a>
+                    </div>
+                  </div>
+
                   <div class="row">
                     {% for medicine in medicines %}
-                    <div class="col-md-4 text-center" style="display: flex;justify-content:space-around;align-items: center;">
-                      <div class="menu-wrap">
-                        <a href="#" class="menu-img img">
-                          <img src="{{ medicine.featured_image.url }}" Style="height:300px;width: 300px;" class="img-fluid" alt="User Image"/>
-                        </a>
-                        <div class="text" style="text-align: center">
-                          <h3><a href="{% url 'product-single' pk=medicine.serial_number %}">{{medicine.name}}</a></h3>
-                          
-                          <p class="price"><span>{{medicine.price}} BDT</span></p>
-                          <p><a href="{% url 'add-to-cart' pk=medicine.serial_number %}" class="btn btn-primary btn-outline-primary">Add to cart</a></p>
+                      <div class="col-sm-6 col-lg-4 mb-4">
+                        <div class="card medicine-card h-100">
+                          <a href="{% url 'product-single' pk=medicine.serial_number %}">
+                            {% if medicine.featured_image %}
+                              <img src="{{ medicine.featured_image.url }}" class="medicine-image" alt="{{ medicine.name }}" />
+                            {% else %}
+                              <img src="{% static 'HealthStack-System/images/Normal/favicon.png' %}" class="medicine-image" alt="{{ medicine.name }}" />
+                            {% endif %}
+                          </a>
+
+                          <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">{{ medicine.name }}</h5>
+                            <p class="medicine-price">{{ medicine.price }} BDT</p>
+                            <a href="{% url 'add-to-cart' pk=medicine.serial_number %}" class="btn btn-outline-primary mt-auto">
+                              Add to cart
+                            </a>
+                          </div>
                         </div>
                       </div>
-                    </div>
+                    {% empty %}
+                      <div class="col-12">
+                        <div class="alert alert-info mb-0">No medicines found for your search.</div>
+                      </div>
                     {% endfor %}
                   </div>
                 </div>
-                <!-- <div class="tab-pane fade" id="v-pills-1" role="tabpanel" aria-labelledby="v-pills-2-tab">
-                  <div class="row">
-                    <div class="col-md-4 text-center">
-                      <div class="menu-wrap">
-                        <a href="#" class="menu-img img mb-4" style="background-image: url(images/drink-1.jpg);"></a>
-                        <div class="text">
-                          <h3><a href=""">Lemonade Juice</a></h3>
-                          <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia.
-                          </p>
-                          <p class="price"><span>$2.90</span></p>
-                          <p><a href="cart.html" class="btn btn-primary btn-outline-primary">Add to cart</a></p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div> -->
-                <!-- <div class="tab-pane fade" id="v-pills-2" role="tabpanel" aria-labelledby="v-pills-3-tab">
-                  <div class="row">
-                    <div class="col-md-4 text-center">
-                      <div class="menu-wrap">
-                        <a href="#" class="menu-img img mb-4" style="background-image: url(images/dessert-1.jpg);"></a>
-                        <div class="text">
-                          <h3><a href="{">Hot Cake Honey</a></h3>
-                          <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia.
-                          </p>
-                          <p class="price"><span>$2.90</span></p>
-                          <p><a href="cart.html" class="btn btn-primary btn-outline-primary">Add to cart</a></p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-4 text-center">
-                      <div class="menu-wrap">
-                        <a href="#" class="menu-img img mb-4" style="background-image: url(images/dessert-2.jpg);"></a>
-                        <div class="text">
-                          <h3><a href="">Hot Cake Honey</a></h3>
-                          <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia.
-                          </p>
-                          <p class="price"><span>$2.90</span></p>
-                          <p><a href="cart.html" class="btn btn-primary btn-outline-primary">Add to cart</a></p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div> -->
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      {% include 'footer.html' %}
     </div>
-  </section>
 
-  <footer class="ftco-footer ftco-section img">
-    <div class="overlay"></div>
-    <div class="container">
-      <div class="row mb-5">
-        <div class="col-lg-6 col-md-6 mb-5 mb-md-5">
-          <div class="ftco-footer-widget mb-8">
-            <h2 class="ftco-heading-2">About Us</h2>
-            <p>Healthstack is an online based platform for multiple hospitals. 
-              It Provides immediate medical assistance to patients who require emergency treatment. 
-              Its Ability to track, monitor, and share a patient's health records between all hospitals
-              . Patients can also see information regarding multiple hospitals and doctors and make 
-              appointments online.
-            </p>
-
-          </div>
-        </div>
-        
-        <div class="col-lg-3 col-md-6 mb-5 mb-md-5">
-          <div class="ftco-footer-widget mb-4">
-            <h2 class="ftco-heading-2">Have a Questions?</h2>
-            <div class="block-23 mb-3">
-              <ul>
-                <li><span class="icon icon-map-marker"></span><span class="text">Copyright (c) 2026 John Tyrone P. Coronel, Philippines</span></li>
-                <li><a href="#"><span class="icon icon-phone"></span><span class="text">09123456789</span></a></li>
-                <li><a href="#"><span class="icon icon-envelope"></span><span class="text"><span class="__cf_email__"
-                        data-cfemail="bed7d0d8d1fec7d1cbccdad1d3dfd7d090ddd1d3">[email&#160;protected]</span></span></a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </footer>
-
-  <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px">
-      <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" />
-      <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10"
-        stroke="#F96D00" />
-    </svg>
-  </div>
-  <script src="{% static 'HealthStack-System/Outside_assets/js/jquery.min.js' %}"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-migrate/3.0.1/jquery-migrate.min.js"></script>
-  <script src="{% static 'HealthStack-System/Outside_assets/js/popper.min.js' %}"></script>
-  <script src="{% static 'HealthStack-System/Outside_assets/js/bootstrap.min.js' %}"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/stellar.js/0.6.2/jquery.stellar.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-animateNumber/0.0.14/jquery.animateNumber.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.13.18/jquery.timepicker.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/scrollax/1.0.0/scrollax.min.js"></script>
-  <script>
-    window.addEventListener('load', function () {
-      var loader = document.getElementById('ftco-loader');
-      if (loader) {
-        loader.classList.remove('show');
-      }
-    });
-
-    if (window.AOS) {
-      AOS.init({
-        duration: 800,
-        easing: 'slide'
-      });
-    }
-  </script>
-  <script
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&amp;sensor=false"></script>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-
-    gtag('config', 'UA-23581568-13');
-  </script>
-
-  {% if messages %}
-  <script>
-      {% for message in messages %}
-          $(document).ready(function () {
-              $('.toast').toast('show');
-          });
-      {% endfor %}
-  </script>
-  {% endif %}
-
-
-
-</body>
-
-
+    <script src="{% static 'HealthStack-System/js/Normal/jquery.min.js' %}"></script>
+    <script src="{% static 'HealthStack-System/js/Normal/popper.min.js' %}"></script>
+    <script src="{% static 'HealthStack-System/js/Normal/bootstrap.min.js' %}"></script>
+    <script src="{% static 'HealthStack-System/plugins/Normal/theia-sticky-sidebar/ResizeSensor.js' %}"></script>
+    <script src="{% static 'HealthStack-System/plugins/Normal/theia-sticky-sidebar/theia-sticky-sidebar.js' %}"></script>
+    <script src="{% static 'HealthStack-System/Outside_assets/js/script.js' %}"></script>
+    <script src="{% static 'HealthStack-System/js/Normal/sidebar.js' %}"></script>
+  </body>
 </html>

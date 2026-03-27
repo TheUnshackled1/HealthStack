@@ -122,7 +122,7 @@ def cart_view(request):
         orders = Order.objects.filter(user=request.user, ordered=False)
         if carts.exists() and orders.exists():
             order = orders[0]
-            context = {'carts': carts,'order': order}
+            context = {'patient': patient, 'carts': carts, 'order': order}
             return render(request, 'Pharmacy/cart.html', context)
         else:
             messages.warning(request, "You don't have any item in your cart!")
@@ -151,7 +151,7 @@ def remove_from_cart(request, pk):
                 order.orderitems.remove(order_item)
                 order_item.delete()
                 messages.warning(request, "This item was remove from your cart!")
-                context = {'carts': carts,'order': order}
+                context = {'patient': patient, 'carts': carts, 'order': order}
                 return render(request, 'Pharmacy/cart.html', context)
             else:
                 messages.info(request, "This item was not in your cart")
@@ -185,7 +185,7 @@ def increase_cart(request, pk):
                     order_item.quantity += 1
                     order_item.save()
                     messages.warning(request, f"{item.name} quantity has been updated")
-                    context = {'carts': carts,'order': order}
+                    context = {'patient': patient, 'carts': carts, 'order': order}
                     return render(request, 'Pharmacy/cart.html', context)
             else:
                 messages.warning(request, f"{item.name} is not in your cart")
@@ -219,13 +219,13 @@ def decrease_cart(request, pk):
                     order_item.quantity -= 1
                     order_item.save()
                     messages.warning(request, f"{item.name} quantity has been updated")
-                    context = {'carts': carts,'order': order}
+                    context = {'patient': patient, 'carts': carts, 'order': order}
                     return render(request, 'Pharmacy/cart.html', context)
                 else:
                     order.orderitems.remove(order_item)
                     order_item.delete()
                     messages.warning(request, f"{item.name} item has been removed from your cart")
-                    context = {'carts': carts,'order': order}
+                    context = {'patient': patient, 'carts': carts, 'order': order}
                     return render(request, 'Pharmacy/cart.html', context)
             else:
                 messages.info(request, f"{item.name} is not in your cart")
