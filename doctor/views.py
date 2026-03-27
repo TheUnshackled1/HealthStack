@@ -324,6 +324,17 @@ def doctor_profile_settings(request):
     if request.user.is_doctor:
         doctor = Doctor_Information.objects.get(user=request.user)
         old_featured_image = doctor.featured_image
+
+        def parse_optional_int(value):
+            if value is None:
+                return None
+            cleaned = str(value).strip()
+            if cleaned in ('', 'None', 'null'):
+                return None
+            try:
+                return int(cleaned)
+            except (TypeError, ValueError):
+                return None
         
 
         if request.method == 'GET':
@@ -363,8 +374,8 @@ def doctor_profile_settings(request):
             doctor.featured_image = featured_image
             doctor.phone_number = number
             #doctor.visiting_hour
-            doctor.consultation_fee = consultation_fee
-            doctor.report_fee = report_fee
+            doctor.consultation_fee = parse_optional_int(consultation_fee)
+            doctor.report_fee = parse_optional_int(report_fee)
             doctor.description = description
             doctor.dob = dob
             

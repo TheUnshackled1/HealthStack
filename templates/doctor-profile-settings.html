@@ -245,13 +245,13 @@
 										<div class="col-md-6">
 											<div class="form-group">
 												<label>Consultation Fee</label>
-												<input type="text" name="consultation_fee" class="form-control" value="{{doctor.consultation_fee}}">
+												<input type="text" name="consultation_fee" class="form-control" value="{{doctor.consultation_fee|default:''}}">
 											</div>
 										</div>
 										<div class="col-md-6">
 											<div class="form-group">
 												<label class="control-label">Report Fee</label>
-												<input type="text" name="report_fee" class="form-control" value="{{doctor.report_fee}}">
+												<input type="text" name="report_fee" class="form-control" value="{{doctor.report_fee|default:''}}">
 											</div>
 										</div>
 									</div>

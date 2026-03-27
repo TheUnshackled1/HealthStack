@@ -1,6 +1,24 @@
 {% load static %}
 
 <nav class="navbar navbar-expand-lg header-nav">
+  <style>
+    .top-logout-btn {
+      border: 2px solid #00d090;
+      color: #00c98a;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      padding: 8px 16px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      background: #fff;
+    }
+
+    .top-logout-btn:hover {
+      background: #00d090;
+      color: #fff;
+    }
+  </style>
+
   <div class="navbar-header">
     <a id="mobile_btn" href="javascript:void(0);">
       <span class="bar-icon">
@@ -97,41 +115,8 @@
         <p class="contact-info-header">{% if patient.phone_number %}{{ patient.phone_number }}{% else %}Not set{% endif %}</p>
       </div>
     </li>
-    <!-- User Menu -->
-    <li class="nav-item dropdown has-arrow logged-item">
-      <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-        <span class="user-img">
-          <img
-            class="rounded-circle"
-            src="{{patient.featured_image.url}}"
-            width="31"
-            alt="{{ patient.name|default:'Patient' }}"
-          />
-        </span>
-      </a>
-      <div class="dropdown-menu dropdown-menu-right">
-        <div class="user-header">
-          <div class="avatar avatar-sm">
-            <img
-              src="{{patient.featured_image.url}}"
-              alt="User Image"
-              class="avatar-img rounded-circle"
-            />
-          </div>
-          <div class="user-text">
-            <h6>{{ patient.name|default:user.username }}</h6>
-            <p class="text-muted mb-0">Patient</p>
-          </div>
-        </div>
-        <a class="dropdown-item" href="{% url 'patient-dashboard' %}"
-          >Dashboard</a
-        >
-        <a class="dropdown-item" href="{% url 'profile-settings' %}"
-          >Profile Settings</a
-        >
-        <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
-      </div>
+    <li class="nav-item">
+      <a href="{% url 'logout' %}" class="btn top-logout-btn">Logout</a>
     </li>
-    <!-- /User Menu -->
   </ul>
 </nav>
