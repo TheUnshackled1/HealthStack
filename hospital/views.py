@@ -88,7 +88,6 @@ def resetPassword(request):
         if form.is_valid():
             user = form.save(commit=False)
             user_email = user.email
-       
             subject = "Password Reset Requested"
             # email_template_name = "password_reset_email.txt"
             values = {

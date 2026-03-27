@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" role="img" aria-label="South Bacolod General Hospital and Medical Center">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#b45309"/>
+      <stop offset="100%" stop-color="#92400e"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="700" fill="url(#bg)"/>
+  <rect x="60" y="60" width="1080" height="580" rx="26" fill="rgba(255,255,255,0.10)"/>
+  <text x="600" y="285" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="56" font-weight="700" fill="#ffffff">South Bacolod General Hospital</text>
+  <text x="600" y="360" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="54" font-weight="700" fill="#ffffff">and Medical Center</text>
+  <text x="600" y="435" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="28" fill="#fef3c7">Negros Occidental, Philippines</text>
+</svg>
