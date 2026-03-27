@@ -120,9 +120,13 @@
 											<div class="col-12 col-md-12">
 												<div class="form-group">
 													<div class="change-avatar">
-														<div class="profile-img">
-															<img src="{{patient.featured_image.url}}" alt="User Image">
-														</div>
+                            <div class="profile-img">
+                              {% if patient.featured_image %}
+                                <img src="{{ patient.featured_image.url }}" alt="User Image">
+                              {% else %}
+                                <img src="{% static 'HealthStack-System/images/Normal/patients/user-default.png' %}" alt="User Image">
+                              {% endif %}
+                            </div>
 														<div class="upload-img">
 															<div class="change-photo-btn">
 																<span><i class="fa fa-upload"></i> Upload Photo</span>
