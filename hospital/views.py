@@ -248,6 +248,14 @@ def profile_settings(request):
         # patient = Patient.objects.get(user_id=pk)
         patient = Patient.objects.get(user=request.user)
         old_featured_image = patient.featured_image
+
+        def parse_optional_int(value):
+            if value in (None, '', 'None'):
+                return None
+            try:
+                return int(value)
+            except (TypeError, ValueError):
+                return None
         
         if request.method == 'GET':
             context = {'patient': patient}
@@ -266,10 +274,10 @@ def profile_settings(request):
             address = request.POST.get('address')
             nid = request.POST.get('nid')
             history = request.POST.get('history')
-            
+
             patient.name = name
-            patient.age = age
-            patient.phone_number = phone_number
+            patient.age = parse_optional_int(age)
+            patient.phone_number = parse_optional_int(phone_number)
             patient.address = address
             patient.blood_group = blood_group
             patient.history = history
