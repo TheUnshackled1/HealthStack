@@ -26,6 +26,12 @@
   <link rel="stylesheet" href="{% static 'HealthStack-System/css/pharmacy/flaticon.css' %}">
   <link rel="stylesheet" href="{% static 'HealthStack-System/css/pharmacy/icomoon.css' %}">
   <link rel="stylesheet" href="{% static 'HealthStack-System/css/pharmacy/style.css' %}">
+  <style>
+    .ftco-animate {
+      opacity: 1 !important;
+      visibility: visible !important;
+    }
+  </style>
 </head>
 
 <body>
@@ -214,15 +220,19 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.13.18/jquery.timepicker.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/scrollax/1.0.0/scrollax.min.js"></script>
   <script>
-    // Initialize AOS
-    AOS.init({
-      duration: 800,
-      easing: 'slide'
+    window.addEventListener('load', function () {
+      var loader = document.getElementById('ftco-loader');
+      if (loader) {
+        loader.classList.remove('show');
+      }
     });
-    // Hide loader
-    $(window).on('load', function() {
-      $('#ftco-loader').removeClass('show');
-    });
+
+    if (window.AOS) {
+      AOS.init({
+        duration: 800,
+        easing: 'slide'
+      });
+    }
   </script>
   <script
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&amp;sensor=false"></script>
