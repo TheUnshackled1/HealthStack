@@ -1,12 +1,18 @@
 # HealthStack-System
 
-- An online platform that caters to multiple hospitals, enabling efficient tracking, monitoring, and sharing of patient health records between themselves. Patients can access information on various hospitals and doctors, book appointments online, purchase medicines from an online pharmacy, pay for laboratory tests via an integrated payment gateway, and even chat with their appointed doctors.
+- An online platform that caters to multiple hospitals, enabling efficient tracking, monitoring, and sharing of patient health records between themselves. Patients can access information on various hospitals and doctors, book appointments online, purchase medicines from an online pharmacy, and even chat with their appointed doctors.
 - Software Engineering Project - Bachelor of Science in Information Systems
 
 ## Tech Stack and Tools used:
       1) Programming Language and Libraries: Django (Python web framework), Bootstrap, JavaScript, Ajax, Django REST framework.
       2) Database: SQLite
-      3) APIs used: MailTrap, SSLCommerz Payment Gateway, Django PDF library, Django channels for chat, ngrok HTTP, PyPI packages.
+      3) APIs used: MailTrap, Django PDF library, Django channels for chat, ngrok HTTP, PyPI packages.
+
+## Payment System
+This system uses **manual billing and payment tracking**:
+- Hospital admin, pharmacists, and lab workers can record payments manually
+- Patients see unified billing view with all payment types (appointments, pharmacy, lab tests)
+- Status tracking: Pending, Partial, Paid
 
 ## Contributor
       John Tyrone P. Coronel
@@ -20,15 +26,15 @@
 ### Patient
       1)  Search multiple Hospital → Department List → Search for Doctors
       2)  Doctor Profile → Book Appointment
-      3)  Pay Appointment + Mail Confirmation 
+      3)  View appointment billing status (pay at cashier)
       4)  Search all Doctors in all hospitals
       5)  Chat with appointed Doctor
       6)  View Prescription, Download Prescription (PDF)
-      7)  Choose which tests to pay (Cart System, payment + mail confirmation)
+      7)  View test billing status (pay at lab/cashier)
       8)  View Report, Download Report (PDF)
       9)  Give Doctor Review
       10) Search for Medicines in Medical Shop (Pharmacy)
-      11) Select which medicines to purchase (Cart system), pay total amount for medicines (payment + mail confirmation)
+      11) Select medicines to purchase (Cart system), view billing status (pay at pharmacy)
       
 ### Doctor 
       1)  Doctor Profile Settings (Add More feature)
@@ -44,16 +50,20 @@
       4)  View Hospital List → CRUD Departments within hospital
       5)  CRUD Lab Worker
       6)  CRUD Pharmacist
+      7)  View all transactions and payment records
+      8)  Create invoices for patients (manual billing)
 
 ### Lab worker
       1)  Lab Worker Dashboard
       2)  Create Report for patient.
       3)  Create Tests for hospitals, View Tests
+      4)  Record test payment status
 
 ### Pharmacist
       1)  Pharmacist Dashboard
       2)  CRUD Medicines
       3)  Search Medicine
+      4)  View orders and record medicine payment status
 
 
 ## APIs and PyPI packages used:
@@ -63,7 +73,6 @@
 #### [Pillow](https://pillow.readthedocs.io/en/stable/index.html) - Python imaging library
 #### [Mailtrap API](https://mailtrap.io/blog/django-send-email/) - smtp fake testing server
 #### [Django Environ](https://django-environ.readthedocs.io/en/latest/) - protecting credentials online (.env file)
-#### [SSLCommerz API](https://github.com/sslcommerz/SSLCommerz-Python) - a payment gateway that provides various payment options in Bangladesh (debit card, credit card, mobile banking, etc.)
 #### [Django Debug Toolbar](https://django-debug-toolbar.readthedocs.io/en/latest/installation.html) - configurable set of panels that display various debug information about the current request/response and when clicked
 #### [xhtml2pdf](https://xhtml2pdf.readthedocs.io/en/latest/usage.html) - to generate and download pdf documents.
 
@@ -72,7 +81,7 @@
       2) Migrate to create dbsqlite database 
       3) Look for .env.example and settings.py files to see what credentials to set up, and then create .env files
       
-      The credentials that you need to set up are: Mailtrap credentials, SSLCommerz Credentials. 
+      The credentials that you need to set up are: Mailtrap credentials (for email notifications).
 
 ## Steps to start the app
       1) Start python virtual env

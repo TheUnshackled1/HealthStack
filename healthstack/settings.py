@@ -150,11 +150,12 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
 
-### SSLCOMMERZ env variables
-#VARIABLE should be in capital letter.
-STORE_ID = env('STORE_ID')
-STORE_PASSWORD = env('STORE_PASSWORD')
-STORE_NAME = env('STORE_NAME')
+### SSLCOMMERZ env variables (DEPRECATED - using manual billing)
+# Gateway is disabled. These values are kept for backwards compatibility
+# but are no longer required for the application to run.
+STORE_ID = env('STORE_ID', default='')
+STORE_PASSWORD = env('STORE_PASSWORD', default='')
+STORE_NAME = env('STORE_NAME', default='')
 
 ###Mailtrap env Variables
 SMTP_HOST = env('SMTP_HOST')

@@ -33,7 +33,8 @@ urlpatterns = [
     path('api/', include('api.urls')),
     path('hospital_admin/', include('hospital_admin.urls')),
     path('chat/', include('ChatApp.urls')),
-    path('sslcommerz/', include('sslcommerz.urls')),
+    # SSLCommerz gateway disabled - using manual billing instead
+    # path('sslcommerz/', include('sslcommerz.urls')),
     path('pharmacy/', include('pharmacy.urls')),
     path('__debug__/', include('debug_toolbar.urls')),
     
