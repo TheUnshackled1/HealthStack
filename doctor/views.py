@@ -55,6 +55,11 @@ def doctor_change_password(request, pk):
     context = {'doctor': doctor}
     
     if request.method == "POST":
+        # Check if doctor has email
+        if not doctor.email:
+            messages.error(request, "No email address found. Please update your profile with a valid email address first.")
+            return redirect("doctor-change-password", pk)
+        
         # Generate OTP and send email
         otp_code = PasswordResetOTP.generate_otp()
         

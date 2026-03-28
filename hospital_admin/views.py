@@ -179,6 +179,11 @@ def admin_change_password(request, pk):
     context = {'admin': admin}
     
     if request.method == "POST":
+        # Check if admin has email
+        if not admin.email:
+            messages.error(request, "No email address found. Please update your profile with a valid email address first.")
+            return redirect("admin-change-password", pk)
+        
         # Generate OTP and send email
         otp_code = PasswordResetOTP.generate_otp()
         
