@@ -1,6 +1,6 @@
 from multiprocessing import context
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q, Count
@@ -171,24 +171,37 @@ def get_messages(request):
 @login_required(login_url='login')
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def send_chat(request):
-    resp = {}
     User = get_user_model()
-    if request.method == 'POST':
-        post =request.POST
-        
-        u_from = User.objects.get(id=post['user_from'])
-        u_to = User.objects.get(id=post['user_to'])
-        insert = chatMessages(user_from=u_from,user_to=u_to,message=post['message'])
-        try:
-            insert.save()
-            resp['status'] = 'success'
-        except Exception as ex:
-            resp['status'] = 'failed'
-            resp['mesg'] = ex
-    else:
-        resp['status'] = 'failed'
+    next_url = request.POST.get('next') or request.META.get('HTTP_REFERER') or '/'
+    is_ajax = request.headers.get('x-requested-with') == 'XMLHttpRequest'
 
-    return HttpResponse(json.dumps(resp), content_type="application/json")
+    if request.method == 'POST':
+        post = request.POST
+        message = (post.get('message') or '').strip()
+        user_to = post.get('user_to')
+
+        if not user_to or not message:
+            if is_ajax:
+                return JsonResponse({'status': 'failed', 'mesg': 'Missing recipient or message'})
+            messages.error(request, 'Please choose a recipient and write a message.')
+            return redirect(next_url)
+
+        try:
+            u_from = request.user
+            u_to = User.objects.get(id=user_to)
+            chatMessages.objects.create(user_from=u_from, user_to=u_to, message=message)
+            if is_ajax:
+                return JsonResponse({'status': 'success'})
+            return redirect(next_url)
+        except Exception as ex:
+            if is_ajax:
+                return JsonResponse({'status': 'failed', 'mesg': str(ex)})
+            messages.error(request, 'Unable to send message right now.')
+            return redirect(next_url)
+    else:
+        if is_ajax:
+            return JsonResponse({'status': 'failed', 'mesg': 'Invalid request method'})
+        return redirect(next_url)
 
 
 
