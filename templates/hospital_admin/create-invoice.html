@@ -117,7 +117,8 @@
 											<div class="col-md-6">
 												<div class="form-group">
 													<label>Transaction/Receipt Number</label>
-													<input type="text" class="form-control" name="transaction_id" placeholder="Official receipt or reference number" />
+													<input type="text" class="form-control" name="transaction_id" placeholder="Leave blank to auto-generate" />
+													<small class="text-muted">Auto-generated if left empty (e.g., TXN-20260328-1234)</small>
 												</div>
 											</div>
 										</div>
@@ -126,7 +127,8 @@
 											<div class="col-md-6">
 												<div class="form-group">
 													<label>Transaction Date</label>
-													<input type="date" class="form-control" name="transaction_date" />
+													<input type="datetime-local" class="form-control" name="transaction_date" />
+													<small class="text-muted">Leave blank to use current date/time</small>
 												</div>
 											</div>
 										</div>

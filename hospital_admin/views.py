@@ -438,6 +438,13 @@ def generate_random_invoice():
     string_var = "#INV-" + string_var
     return string_var
 
+def generate_transaction_id():
+    """Generate a unique transaction/receipt number"""
+    from datetime import datetime
+    timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
+    random_suffix = ''.join(random.choices(string.digits, k=4))
+    return f"TXN-{timestamp}-{random_suffix}"
+
 @csrf_exempt
 @login_required(login_url='admin_login')
 def create_invoice(request, pk):
@@ -465,8 +472,19 @@ def create_invoice(request, pk):
         invoice.name = patient.name
         invoice.payment_type = request.POST.get('payment_type', 'appointment')
         invoice.status = request.POST.get('status', 'Pending')
-        invoice.transaction_id = request.POST.get('transaction_id', '')
-        invoice.transaction_date = request.POST.get('transaction_date', '')
+        
+        # Auto-generate transaction ID if not provided
+        transaction_id = request.POST.get('transaction_id', '').strip()
+        if not transaction_id:
+            transaction_id = generate_transaction_id()
+        invoice.transaction_id = transaction_id
+        
+        # Set transaction date to now if not provided
+        transaction_date = request.POST.get('transaction_date', '').strip()
+        if not transaction_date:
+            from datetime import datetime
+            transaction_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        invoice.transaction_date = transaction_date
     
         invoice.save()
         return redirect('patient-list')
