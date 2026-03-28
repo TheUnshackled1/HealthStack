@@ -917,8 +917,8 @@ def edit_lab_worker(request, pk):
     
             lab_worker.name = name
             lab_worker.email = email
-            lab_worker.phone_number = phone_number
-            lab_worker.age = age
+            lab_worker.phone_number = int(phone_number) if phone_number and phone_number not in ['None', ''] else None
+            lab_worker.age = int(age) if age and age not in ['None', ''] else None
             lab_worker.featured_image = featured_image
     
             lab_worker.save()
@@ -948,8 +948,8 @@ def edit_pharmacist(request, pk):
     
             pharmacist.name = name
             pharmacist.email = email
-            pharmacist.phone_number = phone_number
-            pharmacist.age = age
+            pharmacist.phone_number = int(phone_number) if phone_number and phone_number not in ['None', ''] else None
+            pharmacist.age = int(age) if age and age not in ['None', ''] else None
             pharmacist.featured_image = featured_image
     
             pharmacist.save()
