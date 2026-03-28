@@ -895,9 +895,8 @@ def accept_doctor(request,pk):
     # Mailtrap
     doctor_name = doctor.name
     doctor_email = doctor.email
-    doctor_department = doctor.department_name.hospital_department_name
-
-    doctor_specialization = doctor.specialization.specialization_name
+    doctor_department = doctor.department_name.hospital_department_name if doctor.department_name else 'Not Assigned'
+    doctor_specialization = doctor.specialization.specialization_name if doctor.specialization else 'Not Assigned'
 
     subject = "Acceptance of Doctor Registration"
 
@@ -916,6 +915,9 @@ def accept_doctor(request,pk):
         send_mail(subject, plain_message, 'hospital_admin@gmail.com',  [doctor_email], html_message=html_message, fail_silently=False)
     except BadHeaderError:
         return HttpResponse('Invalid header found')
+    except Exception as e:
+        # Email sending failed but doctor is still accepted
+        pass
 
     messages.success(request, 'Doctor Accepted!')
     return redirect('register-doctor-list')
