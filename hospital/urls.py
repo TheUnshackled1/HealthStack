@@ -15,6 +15,7 @@ urlpatterns = [
     path('', views.hospital_home, name='hospital_home'),
     path('search/', views.search, name='search'),
     path('change-password/<int:pk>', views.change_password, name='change-password'),
+    path('verify-otp-change-password/<int:pk>', views.verify_otp_change_password, name='verify-otp-change-password'),
     path('add-billing/', views.add_billing, name='add-billing'),
     path('appointments/', views.appointments, name='appointments'),
     path('edit-billing/', views.edit_billing, name='edit-billing'),

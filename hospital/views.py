@@ -5,7 +5,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 # from django.contrib.auth.models import User
 # from django.contrib.auth.forms import UserCreationForm
 from .forms import CustomUserCreationForm, PatientForm, PasswordResetForm
-from hospital.models import Hospital_Information, User, Patient 
+from hospital.models import Hospital_Information, User, Patient, PasswordResetOTP 
 from doctor.models import Test, testCart, testOrder
 from hospital_admin.models import hospital_department, specialization, service, Test_Information
 from django.views.decorators.cache import cache_control
@@ -33,6 +33,7 @@ from django.utils.encoding import force_bytes
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.views.decorators.csrf import csrf_exempt
+from django.conf import settings
 
 
 # Create your views here.
@@ -46,22 +47,106 @@ def hospital_home(request):
 
 @csrf_exempt
 @login_required(login_url="login")
-def change_password(request,pk):
+def change_password(request, pk):
+    """Step 1: Request OTP for password change"""
     patient = Patient.objects.get(user_id=pk)
-    context={"patient":patient}
+    context = {"patient": patient}
+    
     if request.method == "POST":
-        new_password = request.POST["new_password"]
-        confirm_password = request.POST["confirm_password"]
-        if new_password == confirm_password:
+        # Generate OTP and send email
+        otp_code = PasswordResetOTP.generate_otp()
+        
+        # Delete any existing OTPs for this user
+        PasswordResetOTP.objects.filter(user=request.user).delete()
+        
+        # Create new OTP
+        PasswordResetOTP.objects.create(user=request.user, otp_code=otp_code)
+        
+        # Send email with OTP
+        try:
+            subject = 'HealthStack - Password Change Verification Code'
+            message = f'''
+Hello {patient.name},
+
+Your verification code for password change is:
+
+{otp_code}
+
+This code will expire in 10 minutes.
+
+If you did not request this, please ignore this email.
+
+Best regards,
+HealthStack Team
+            '''
+            send_mail(
+                subject,
+                message,
+                settings.EMAIL_HOST_USER,
+                [patient.email],
+                fail_silently=False,
+            )
+            messages.success(request, f"Verification code sent to {patient.email}")
+            return redirect("verify-otp-change-password", pk)
+        except Exception as e:
+            messages.error(request, f"Failed to send email: {str(e)}")
+            return redirect("change-password", pk)
+    
+    return render(request, 'change-password.html', context)
+
+
+@csrf_exempt
+@login_required(login_url="login")
+def verify_otp_change_password(request, pk):
+    """Step 2: Verify OTP and change password"""
+    patient = Patient.objects.get(user_id=pk)
+    context = {"patient": patient}
+    
+    if request.method == "POST":
+        otp_entered = request.POST.get("otp_code", "")
+        new_password = request.POST.get("new_password", "")
+        confirm_password = request.POST.get("confirm_password", "")
+        
+        # Verify OTP
+        try:
+            otp_record = PasswordResetOTP.objects.filter(
+                user=request.user, 
+                is_used=False
+            ).latest('created_at')
             
+            if not otp_record.is_valid():
+                messages.error(request, "Verification code has expired. Please request a new one.")
+                return redirect("change-password", pk)
+            
+            if otp_record.otp_code != otp_entered:
+                messages.error(request, "Invalid verification code. Please try again.")
+                return redirect("verify-otp-change-password", pk)
+            
+            # OTP is valid, now change password
+            if new_password != confirm_password:
+                messages.error(request, "New Password and Confirm Password do not match.")
+                return redirect("verify-otp-change-password", pk)
+            
+            if len(new_password) < 6:
+                messages.error(request, "Password must be at least 6 characters long.")
+                return redirect("verify-otp-change-password", pk)
+            
+            # Mark OTP as used
+            otp_record.is_used = True
+            otp_record.save()
+            
+            # Change password
             request.user.set_password(new_password)
             request.user.save()
-            messages.success(request,"Password Changed Successfully")
+            
+            messages.success(request, "Password changed successfully!")
             return redirect("patient-dashboard")
-        else:
-            messages.error(request,"New Password and Confirm Password is not same")
-            return redirect("change-password",pk)
-    return render(request, 'change-password.html',context)
+            
+        except PasswordResetOTP.DoesNotExist:
+            messages.error(request, "No verification code found. Please request a new one.")
+            return redirect("change-password", pk)
+    
+    return render(request, 'verify-otp-change-password.html', context)
 
 
 def add_billing(request):

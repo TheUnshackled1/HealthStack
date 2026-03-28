@@ -1,6 +1,8 @@
 from django.db import models
 import uuid
 from django.conf import settings
+from django.utils import timezone
+import random
 
 
 # import django user model
@@ -29,6 +31,29 @@ class User(AbstractUser):
     is_pharmacist = models.BooleanField(default=False)
     #login_status = models.CharField(max_length=200, null=True, blank=True, default="offline")
     login_status = models.BooleanField(default=False)
+
+
+class PasswordResetOTP(models.Model):
+    """Model to store OTP for password change verification"""
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    otp_code = models.CharField(max_length=6)
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_used = models.BooleanField(default=False)
+    
+    def is_valid(self):
+        """Check if OTP is still valid (10 minutes expiry)"""
+        from datetime import timedelta
+        expiry_time = self.created_at + timedelta(minutes=10)
+        return timezone.now() < expiry_time and not self.is_used
+    
+    @staticmethod
+    def generate_otp():
+        """Generate a 6-digit OTP"""
+        return str(random.randint(100000, 999999))
+    
+    def __str__(self):
+        return f"OTP for {self.user.username}"
+
     
 class Hospital_Information(models.Model):
     # ('database value', 'display_name')
