@@ -1066,6 +1066,59 @@ def pharmacist_dashboard(request):
             return render(request, 'hospital_admin/pharmacist-dashboard.html',context)
 
 @csrf_exempt
+def pharmacist_orders(request):
+    if request.user.is_authenticated and request.user.is_pharmacist:
+        pharmacist = Pharmacist.objects.get(user=request.user)
+        orders = Order.objects.filter(ordered=True).order_by('-created')
+        context = {'pharmacist': pharmacist, 'orders': orders}
+        return render(request, 'hospital_admin/pharmacist-orders.html', context)
+
+@csrf_exempt
+def pharmacist_record_payment(request, pk):
+    if request.user.is_authenticated and request.user.is_pharmacist:
+        pharmacist = Pharmacist.objects.get(user=request.user)
+        order = Order.objects.get(id=pk)
+        
+        if request.method == 'POST':
+            status = request.POST.get('status', 'Pending')
+            transaction_id = request.POST.get('transaction_id', '')
+            transaction_date = request.POST.get('transaction_date', '')
+            
+            # Create or update Payment record
+            payment, created = Payment.objects.get_or_create(
+                order=order,
+                defaults={
+                    'patient': order.user.patient if hasattr(order.user, 'patient') else None,
+                    'payment_type': 'pharmacy',
+                    'name': order.user.patient.name if hasattr(order.user, 'patient') else str(order.user),
+                    'currency_amount': str(order.final_bill()),
+                    'invoice_number': generate_random_invoice(),
+                }
+            )
+            
+            payment.status = status
+            payment.transaction_id = transaction_id
+            payment.transaction_date = transaction_date
+            payment.save()
+            
+            # Update order payment status
+            order.payment_status = status
+            order.trans_ID = transaction_id
+            order.save()
+            
+            messages.success(request, 'Payment recorded successfully!')
+            return redirect('pharmacist-orders')
+        
+        # Get existing payment if any
+        existing_payment = Payment.objects.filter(order=order).first()
+        context = {
+            'pharmacist': pharmacist,
+            'order': order,
+            'existing_payment': existing_payment
+        }
+        return render(request, 'hospital_admin/pharmacist-record-payment.html', context)
+
+@csrf_exempt
 def report_history(request):
     if request.user.is_authenticated:
         if request.user.is_labworker:

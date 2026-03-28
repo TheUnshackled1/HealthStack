@@ -1,0 +1,140 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+        <title>HealthStack - Pharmacy Orders</title>
+
+        <!-- Favicon -->
+        <link rel="shortcut icon" type="image/x-icon" href="{% static 'HealthStack-System/images/Normal/favicon.png' %}"/>
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="{% static 'HealthStack-System/css/admin/bootstrap.min.css'%}"> 
+        
+        <!-- Fontawesome CSS -->
+        <link rel="stylesheet" href="{% static 'HealthStack-System/css/admin/font-awesome.min.css'%}">
+        
+        <!-- Feathericon CSS -->
+        <link rel="stylesheet" href="{% static 'HealthStack-System/admin_assets/css/feathericon.min.css'%}">
+        
+        <!-- Datatables CSS -->
+        <link rel="stylesheet" href="{% static 'HealthStack-System/plugins/admin/datatables/datatables.min.css'%}"> 
+        
+        <!-- Main CSS -->
+        <link rel="stylesheet" href="{% static 'HealthStack-System/css/admin/style.css'%}"> 
+    </head>
+    <body>
+    
+        <!-- Main Wrapper -->
+        <div class="main-wrapper">
+            <header class="header">{% include 'hospital_admin/pharmacist-navbar.html' %}</header>
+            
+            <!-- Sidebar -->
+            <aside class="sidebar" id="sidebar">
+                {% include 'hospital_admin/pharmacist-sidebar.html' %} </aside>
+            <!-- /Sidebar -->
+            
+            <!-- Page Wrapper -->
+            <div class="page-wrapper">
+                <div class="content container-fluid">
+                
+                    <!-- Page Header -->
+                    <div class="page-header">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h3 class="page-title">Orders & Payments</h3>
+                                <ul class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="{% url 'pharmacist-dashboard' %}">Dashboard</a></li>
+                                    <li class="breadcrumb-item active">Orders</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Page Header -->
+                    
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="datatable table table-hover table-center mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th>Order ID</th>
+                                                    <th>Patient</th>
+                                                    <th>Items</th>
+                                                    <th>Total</th>
+                                                    <th>Date</th>
+                                                    <th class="text-center">Payment Status</th>
+                                                    <th class="text-right">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for order in orders %}
+                                                <tr>
+                                                    <td>#ORD-{{ order.id }}</td>
+                                                    <td>
+                                                        {% if order.user.patient %}
+                                                        {{ order.user.patient.name }}
+                                                        {% else %}
+                                                        {{ order.user.username }}
+                                                        {% endif %}
+                                                    </td>
+                                                    <td>{{ order.count_cart_items }} items</td>
+                                                    <td>{{ order.final_bill }} BDT</td>
+                                                    <td>{{ order.created|date:"M d, Y" }}</td>
+                                                    <td class="text-center">
+                                                        {% if order.payment_status == 'Paid' or order.payment_status == 'VALID' %}
+                                                        <span class="badge badge-pill bg-success">Paid</span>
+                                                        {% elif order.payment_status == 'Partial' %}
+                                                        <span class="badge badge-pill bg-info">Partial</span>
+                                                        {% else %}
+                                                        <span class="badge badge-pill bg-warning">Pending</span>
+                                                        {% endif %}
+                                                    </td>
+                                                    <td class="text-right">
+                                                        <a href="{% url 'pharmacist-record-payment' pk=order.id %}" class="btn btn-sm bg-primary-light">
+                                                            <i class="fe fe-credit-card"></i> Record Payment
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                {% empty %}
+                                                <tr>
+                                                    <td colspan="7" class="text-center text-muted">No orders found</td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>            
+                    </div>
+                </div>            
+            </div>
+            <!-- /Page Wrapper -->
+        
+        </div>
+        <!-- /Main Wrapper -->
+        
+        <!-- jQuery -->
+        <script src="{% static 'HealthStack-System/js/admin/jquery-3.2.1.min.js' %}"></script> 
+        
+        <!-- Bootstrap Core JS -->
+        <script src="{% static 'HealthStack-System/js/admin/popper.min.js' %}"></script> 
+        <script src="{% static 'HealthStack-System/js/admin/bootstrap.min.js' %}"></script> 
+        
+        <!-- Slimscroll JS -->
+        <script src="{% static 'HealthStack-System/plugins/admin/slimscroll/jquery.slimscroll.min.js' %}"></script>
+        
+        <!-- Datatables JS -->
+        <script src="{% static 'HealthStack-System/plugins/admin/datatables/jquery.dataTables.min.js'%}"></script> 
+        <script src="{% static 'HealthStack-System/plugins/admin/datatables/datatables.min.js'%}"></script>
+        
+        <!-- Custom JS -->
+        <script src="{% static 'HealthStack-System/js/admin/script.js' %}"></script>
+        
+    </body>
+</html>
