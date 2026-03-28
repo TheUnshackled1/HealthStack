@@ -12,7 +12,7 @@ from django.contrib import messages
 from hospital.models import Hospital_Information, User, Patient
 from django.db.models import Q
 from pharmacy.models import Medicine, Pharmacist
-from doctor.models import Doctor_Information, Prescription, Prescription_test, Report, Appointment, Experience , Education,Specimen,Test
+from doctor.models import Doctor_Information, Prescription, Prescription_test, Report, Appointment, Experience , Education,Specimen,Test, testOrder
 from pharmacy.models import Order, Cart
 from sslcommerz.models import Payment
 from .forms import AdminUserCreationForm, LabWorkerCreationForm, EditHospitalForm, EditEmergencyForm,AdminForm , PharmacistCreationForm 
@@ -984,6 +984,61 @@ def labworker_dashboard(request):
             doctor = Doctor_Information.objects.all()
             context = {'doctor': doctor,'lab_workers':lab_workers}
             return render(request, 'hospital_admin/labworker-dashboard.html',context)
+
+@csrf_exempt
+@login_required(login_url='admin_login')
+def labworker_test_orders(request):
+    if request.user.is_authenticated and request.user.is_labworker:
+        lab_workers = Clinical_Laboratory_Technician.objects.get(user=request.user)
+        test_orders = testOrder.objects.filter(ordered=True).order_by('-created')
+        context = {'lab_workers': lab_workers, 'test_orders': test_orders}
+        return render(request, 'hospital_admin/labworker-test-orders.html', context)
+
+@csrf_exempt
+@login_required(login_url='admin_login')
+def labworker_record_payment(request, pk):
+    if request.user.is_authenticated and request.user.is_labworker:
+        lab_workers = Clinical_Laboratory_Technician.objects.get(user=request.user)
+        test_order = testOrder.objects.get(id=pk)
+        
+        if request.method == 'POST':
+            status = request.POST.get('status', 'Pending')
+            transaction_id = request.POST.get('transaction_id', '')
+            transaction_date = request.POST.get('transaction_date', '')
+            
+            # Create or update Payment record
+            payment, created = Payment.objects.get_or_create(
+                test_order=test_order,
+                defaults={
+                    'patient': test_order.user.patient if hasattr(test_order.user, 'patient') else None,
+                    'payment_type': 'test',
+                    'name': test_order.user.patient.name if hasattr(test_order.user, 'patient') else str(test_order.user),
+                    'currency_amount': str(test_order.final_bill()),
+                    'invoice_number': generate_random_invoice(),
+                }
+            )
+            
+            payment.status = status
+            payment.transaction_id = transaction_id
+            payment.transaction_date = transaction_date
+            payment.save()
+            
+            # Update test order payment status
+            test_order.payment_status = status
+            test_order.trans_ID = transaction_id
+            test_order.save()
+            
+            messages.success(request, 'Payment recorded successfully!')
+            return redirect('labworker-test-orders')
+        
+        # Get existing payment if any
+        existing_payment = Payment.objects.filter(test_order=test_order).first()
+        context = {
+            'lab_workers': lab_workers,
+            'test_order': test_order,
+            'existing_payment': existing_payment
+        }
+        return render(request, 'hospital_admin/labworker-record-payment.html', context)
 
 @csrf_exempt
 @login_required(login_url='admin-login')

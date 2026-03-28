@@ -1,0 +1,180 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+        <title>HealthStack - Record Test Payment</title>
+
+        <!-- Favicon -->
+        <link rel="shortcut icon" type="image/x-icon" href="{% static 'HealthStack-System/images/Normal/favicon.png' %}"/>
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="{% static 'HealthStack-System/css/admin/bootstrap.min.css'%}"> 
+        
+        <!-- Fontawesome CSS -->
+        <link rel="stylesheet" href="{% static 'HealthStack-System/css/admin/font-awesome.min.css'%}">
+        
+        <!-- Feathericon CSS -->
+        <link rel="stylesheet" href="{% static 'HealthStack-System/admin_assets/css/feathericon.min.css'%}">
+        
+        <!-- Main CSS -->
+        <link rel="stylesheet" href="{% static 'HealthStack-System/css/admin/style.css'%}"> 
+    </head>
+    <body>
+    
+        <!-- Main Wrapper -->
+        <div class="main-wrapper">
+            <header class="header">{% include 'hospital_admin/labworker-navbar.html' %}</header>
+            
+            <!-- Sidebar -->
+            <aside class="sidebar" id="sidebar">
+                {% include 'hospital_admin/labworker-sidebar.html' %} </aside>
+            <!-- /Sidebar -->
+            
+            <!-- Page Wrapper -->
+            <div class="page-wrapper">
+                <div class="content container-fluid">
+                
+                    <!-- Page Header -->
+                    <div class="page-header">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h3 class="page-title">Record Payment</h3>
+                                <ul class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="{% url 'labworker-dashboard' %}">Dashboard</a></li>
+                                    <li class="breadcrumb-item"><a href="{% url 'labworker-test-orders' %}">Test Orders</a></li>
+                                    <li class="breadcrumb-item active">Record Payment</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Page Header -->
+                    
+                    <div class="row">
+                        <div class="col-lg-8 col-xl-9">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Payment for Test Order #TEST-{{ test_order.id }}</h4>
+                                </div>
+                                <div class="card-body">
+                                    
+                                    <!-- Payment Form -->
+                                    <form action="" method="POST">
+                                        {% csrf_token %}
+          
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>Payment Status <span class="text-danger">*</span></label>
+                                                    <select class="form-control" name="status" required>
+                                                        <option value="Pending" {% if existing_payment.status == 'Pending' or not existing_payment %}selected{% endif %}>Pending</option>
+                                                        <option value="Partial" {% if existing_payment.status == 'Partial' %}selected{% endif %}>Partial</option>
+                                                        <option value="Paid" {% if existing_payment.status == 'Paid' %}selected{% endif %}>Paid</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>Receipt/Transaction Number</label>
+                                                    <input type="text" class="form-control" name="transaction_id" 
+                                                           value="{{ existing_payment.transaction_id|default:'' }}"
+                                                           placeholder="Official receipt number" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>Transaction Date</label>
+                                                    <input type="date" class="form-control" name="transaction_date" 
+                                                           value="{{ existing_payment.transaction_date|default:'' }}" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="submit-section">
+                                            <button type="submit" class="btn btn-primary submit-btn">
+                                                <i class="fa fa-save"></i> Save Payment
+                                            </button>
+                                            <a href="{% url 'labworker-test-orders' %}" class="btn btn-secondary">Cancel</a>
+                                        </div>
+                                    </form>
+                                    <!-- /Payment Form -->
+                                    
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Order Info Sidebar -->
+                        <div class="col-lg-4 col-xl-3">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Order Details</h4>
+                                </div>
+                                <div class="card-body">
+                                    <p><strong>Order ID:</strong> #TEST-{{ test_order.id }}</p>
+                                    <p><strong>Patient:</strong> 
+                                        {% if test_order.user.patient %}
+                                        {{ test_order.user.patient.name }}
+                                        {% else %}
+                                        {{ test_order.user.username }}
+                                        {% endif %}
+                                    </p>
+                                    <p><strong>Tests:</strong> {{ test_order.orderitems.count }}</p>
+                                    <p><strong>Subtotal:</strong> {{ test_order.get_totals }} BDT</p>
+                                    <p><strong>Total:</strong> <strong class="text-primary">{{ test_order.final_bill }} BDT</strong></p>
+                                    <p><strong>Date:</strong> {{ test_order.created|date:"M d, Y H:i" }}</p>
+                                    <hr>
+                                    <p><strong>Current Status:</strong>
+                                        {% if test_order.payment_status == 'Paid' or test_order.payment_status == 'VALID' %}
+                                        <span class="badge badge-success">Paid</span>
+                                        {% elif test_order.payment_status == 'Partial' %}
+                                        <span class="badge badge-info">Partial</span>
+                                        {% else %}
+                                        <span class="badge badge-warning">Pending</span>
+                                        {% endif %}
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <!-- Test Items -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Tests</h4>
+                                </div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        {% for test_item in test_order.orderitems.all %}
+                                        <li class="mb-2">
+                                            {{ test_item.item.name }}
+                                            <span class="float-right text-muted">{{ test_item.get_total }} BDT</span>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Order Info Sidebar -->
+                    </div>
+                </div>            
+            </div>
+            <!-- /Page Wrapper -->
+        
+        </div>
+        <!-- /Main Wrapper -->
+        
+        <!-- jQuery -->
+        <script src="{% static 'HealthStack-System/js/admin/jquery-3.2.1.min.js' %}"></script> 
+        
+        <!-- Bootstrap Core JS -->
+        <script src="{% static 'HealthStack-System/js/admin/popper.min.js' %}"></script> 
+        <script src="{% static 'HealthStack-System/js/admin/bootstrap.min.js' %}"></script> 
+        
+        <!-- Custom JS -->
+        <script src="{% static 'HealthStack-System/js/admin/script.js' %}"></script>
+        
+    </body>
+</html>

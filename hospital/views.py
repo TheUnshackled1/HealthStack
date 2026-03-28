@@ -213,7 +213,8 @@ def patient_dashboard(request):
         report = Report.objects.filter(patient=patient)
         prescription = Prescription.objects.filter(patient=patient).order_by('-prescription_id')
         appointments = Appointment.objects.filter(patient=patient).filter(Q(appointment_status='pending') | Q(appointment_status='confirmed'))
-        payments = Payment.objects.filter(patient=patient).filter(appointment__in=appointments).filter(payment_type='appointment').filter(status='VALID')
+        # Get all payments for the patient (appointment, pharmacy, test)
+        payments = Payment.objects.filter(patient=patient).order_by('-payment_id')
         context = {'patient': patient, 'appointments': appointments, 'payments': payments,'report':report,'prescription':prescription}
     else:
         return redirect('logout')

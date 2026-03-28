@@ -373,13 +373,13 @@
                             <table class="table table-hover table-center mb-0">
                               <thead>
                                 <tr>
-                                  <th>Doctor</th>
-                                  <th>Tranx ID</th>
-                                  <th>Tranx Date</th>
+                                  <th>Invoice #</th>
+                                  <th>Type</th>
+                                  <th>Description</th>
+                                  <th>Receipt/Tranx ID</th>
+                                  <th>Date</th>
                                   <th>Amount</th>
-                                  <th>Card Type</th>
-                                  <th>Card Issuer</th>
-                                  <th>Payment Status</th>
+                                  <th>Status</th>
                       
                                 </tr>
                               </thead>
@@ -387,36 +387,46 @@
 
                                 {% for payment in payments %}
                                 <tr>
+                                  <td>{{ payment.invoice_number|default:"-" }}</td>
                                   <td>
-                                    <h2 class="table-avatar">
-                                      <a
-                                        href="doctor-profile.html"
-                                        class="avatar avatar-sm mr-2"
-                                      >
-                                        <img
-                                          class="avatar-img rounded-circle"
-                                          src="{{payment.appointment.doctor.featured_image.url}}"
-                                          alt="User Image"
-                                        />
-                                      </a>
-                                      <a href="doctor-profile.html"
-                                        >{{payment.appointment.doctor.name}} <span>{{payment.appointment.doctor.department}}</span></a
-                                      >
-                                    </h2>
+                                    {% if payment.payment_type == 'appointment' %}
+                                    <span class="badge badge-primary">Appointment</span>
+                                    {% elif payment.payment_type == 'pharmacy' %}
+                                    <span class="badge badge-info">Pharmacy</span>
+                                    {% elif payment.payment_type == 'test' %}
+                                    <span class="badge badge-secondary">Lab Test</span>
+                                    {% else %}
+                                    <span class="badge badge-light">{{ payment.payment_type|default:"Other" }}</span>
+                                    {% endif %}
                                   </td>
-                                  <td>{{payment.transaction_id}}</td>
-                                  <td>{{payment.transaction_date}}</td>
-                                  <td>{{payment.currency_amount}} BDT</td>
-                                  <td>{{payment.card_type}}</td>
-                                  <td>{{payment.card_issuer}}</td>
                                   <td>
-                                    {% if payment.status == 'VALID' %}
-                                    <span class="badge badge-pill bg-success-light">Success</span>
+                                    {% if payment.appointment %}
+                                      Dr. {{ payment.appointment.doctor.name }}
+                                    {% elif payment.order %}
+                                      Medicine Order #{{ payment.order.id }}
+                                    {% elif payment.test_order %}
+                                      Lab Test #{{ payment.test_order.id }}
+                                    {% else %}
+                                      {{ payment.name|default:"-" }}
+                                    {% endif %}
+                                  </td>
+                                  <td>{{ payment.transaction_id|default:"-" }}</td>
+                                  <td>{{ payment.transaction_date|default:"-" }}</td>
+                                  <td>{{ payment.currency_amount|default:"0.00" }} BDT</td>
+                                  <td>
+                                    {% if payment.status == 'VALID' or payment.status == 'Paid' %}
+                                    <span class="badge badge-pill bg-success-light">Paid</span>
+                                    {% elif payment.status == 'Partial' %}
+                                    <span class="badge badge-pill bg-info-light">Partial</span>
                                     {% else %}
                                     <span class="badge badge-pill bg-warning-light">Pending</span>
                                     {% endif %}
                                   </td>
                             
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                  <td colspan="7" class="text-center text-muted">No billing records found</td>
                                 </tr>
                                 {% endfor %}
                           
