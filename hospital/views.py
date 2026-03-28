@@ -253,11 +253,18 @@ def login_user(request):
 
         if user is not None:
             login(request, user)
+            # Redirect based on user type
             if request.user.is_patient:   
-                messages.success(request, 'User Logged in Successfully')    
+                messages.success(request, 'Patient Logged in Successfully')    
                 return redirect('patient-dashboard')
+            elif request.user.is_labworker:
+                messages.success(request, 'Lab Worker Logged in Successfully')
+                return redirect('labworker-dashboard')
+            elif request.user.is_pharmacist:
+                messages.success(request, 'Pharmacist Logged in Successfully')
+                return redirect('pharmacist-dashboard')
             else:
-                messages.error(request, 'Invalid credentials. Not a Patient')
+                messages.error(request, 'Invalid credentials. Please use the appropriate login page.')
                 return redirect('logout')
         else:
             messages.error(request, 'Invalid username or password')
