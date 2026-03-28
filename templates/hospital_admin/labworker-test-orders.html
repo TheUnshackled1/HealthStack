@@ -83,7 +83,7 @@
                                                         {% endif %}
                                                     </td>
                                                     <td>{{ test_order.orderitems.count }} tests</td>
-                                                    <td>{{ test_order.final_bill }} BDT</td>
+                                                    <td>{{ test_order.final_bill }} Peso</td>
                                                     <td>{{ test_order.created|date:"M d, Y" }}</td>
                                                     <td class="text-center">
                                                         {% if test_order.payment_status == 'Paid' or test_order.payment_status == 'VALID' %}

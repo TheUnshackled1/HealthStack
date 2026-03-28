@@ -124,8 +124,8 @@
                                         {% endif %}
                                     </p>
                                     <p><strong>Tests:</strong> {{ test_order.orderitems.count }}</p>
-                                    <p><strong>Subtotal:</strong> {{ test_order.get_totals }} BDT</p>
-                                    <p><strong>Total:</strong> <strong class="text-primary">{{ test_order.final_bill }} BDT</strong></p>
+                                    <p><strong>Subtotal:</strong> {{ test_order.get_totals }} Peso</p>
+                                    <p><strong>Total:</strong> <strong class="text-primary">{{ test_order.final_bill }} Peso</strong></p>
                                     <p><strong>Date:</strong> {{ test_order.created|date:"M d, Y H:i" }}</p>
                                     <hr>
                                     <p><strong>Current Status:</strong>
@@ -150,7 +150,7 @@
                                         {% for test_item in test_order.orderitems.all %}
                                         <li class="mb-2">
                                             {{ test_item.item.name }}
-                                            <span class="float-right text-muted">{{ test_item.get_total }} BDT</span>
+                                            <span class="float-right text-muted">{{ test_item.get_total }} Peso</span>
                                         </li>
                                         {% endfor %}
                                     </ul>
