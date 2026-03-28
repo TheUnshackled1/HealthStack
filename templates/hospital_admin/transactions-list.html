@@ -100,7 +100,7 @@
 														<span class="badge badge-light">{{ payment.payment_type|default:"Other" }}</span>
 														{% endif %}
 													</td>
-													<td>{{ payment.currency_amount|default:"0.00" }} Peso</td>
+													<td>₱{{ payment.currency_amount|default:"0.00" }}</td>
 													<td>{{ payment.transaction_date|default:"-" }}</td>
 													<td class="text-center">
 														{% if payment.status == 'Paid' or payment.status == 'VALID' %}
