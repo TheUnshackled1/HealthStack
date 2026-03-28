@@ -62,13 +62,7 @@
       </div>
       <div class="header-contact-detail">
         <p class="contact-header">Contact</p>
-        {% if doctor.phone_number %}
-        {% with phone=doctor.phone_number|stringformat:"s" %}
-        <p class="contact-info-header">{% if phone|slice:":1" == "0" %}{{ phone }}{% else %}0{{ phone }}{% endif %}</p>
-        {% endwith %}
-        {% else %}
-        <p class="contact-info-header">Not set</p>
-        {% endif %}
+        {% include 'includes/contact-phone.html' %}
       </div>
     </li>
     <!-- User Menu -->

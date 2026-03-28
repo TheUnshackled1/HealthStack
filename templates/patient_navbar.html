@@ -112,7 +112,7 @@
       </div>
       <div class="header-contact-detail">
         <p class="contact-header">Contact</p>
-        <p class="contact-info-header">{% if patient.phone_number %}{{ patient.phone_number }}{% else %}Not set{% endif %}</p>
+        {% include 'includes/contact-phone.html' %}
       </div>
     </li>
     <li class="nav-item">
