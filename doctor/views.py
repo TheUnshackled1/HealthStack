@@ -516,7 +516,11 @@ def booking(request, pk):
         message = request.POST['message']
 
     
-        transformed_date = datetime.datetime.strptime(date, '%m/%d/%Y').strftime('%Y-%m-%d')
+        # Handle both date formats: YYYY-MM-DD (HTML5) and MM/DD/YYYY (legacy)
+        try:
+            transformed_date = datetime.datetime.strptime(date, '%Y-%m-%d').strftime('%Y-%m-%d')
+        except ValueError:
+            transformed_date = datetime.datetime.strptime(date, '%m/%d/%Y').strftime('%Y-%m-%d')
         transformed_date = str(transformed_date)
          
         appointment.date = transformed_date
