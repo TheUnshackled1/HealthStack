@@ -1,4 +1,21 @@
 {% load static %}
+
+<style>
+    .top-logout-btn {
+        border: 2px solid #00d090;
+        color: #00c98a;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        padding: 8px 16px;
+        border-radius: 4px;
+        text-transform: uppercase;
+        background: #fff;
+    }
+    .top-logout-btn:hover {
+        background: #00d090;
+        color: #fff;
+    }
+</style>
 		
     <!-- Logo -->
     <div class="header-left">
@@ -33,9 +50,7 @@
 
         <!-- Logout Button -->
         <li class="nav-item">
-            <a href="{% url 'admin-logout' %}" class="nav-link btn btn-outline-danger btn-sm" style="margin-top: 8px; padding: 5px 15px;">
-                <i class="fas fa-sign-out-alt"></i> Logout
-            </a>
+            <a href="{% url 'admin-logout' %}" class="btn top-logout-btn">Logout</a>
         </li>
         <!-- /Logout Button -->
 
