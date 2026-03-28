@@ -270,8 +270,10 @@ def admin_verify_otp_change_password(request, pk):
             request.user.set_password(new_password)
             request.user.save()
             
-            messages.success(request, "Password changed successfully!")
-            return redirect("admin-dashboard")
+            # Logout user and redirect to login
+            logout(request)
+            messages.success(request, "Password changed successfully! Please login with your new password.")
+            return redirect("admin-login")
             
         except PasswordResetOTP.DoesNotExist:
             messages.error(request, "No verification code found. Please request a new one.")
