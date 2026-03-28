@@ -111,12 +111,12 @@
 
           <div class="row">
             <div class="col-xl-3 col-sm-6 col-12">
-              <a href="{% url 'pending-doctor-list' %}" class="card-link">
+              <a href="{% url 'register-doctor-list' %}" class="card-link">
                 <div class="card" style="cursor: pointer;">
                   <div class="card-body">
                     <div class="dash-widget-header">
                       <span class="dash-widget-icon text-primary border-primary">
-                        <i class="fe fe-users"></i>
+                        <i class="fas fa-user-md"></i>
                       </span>
                       <div class="dash-count">
                         <h3>{{total_doctor_count.count}}</h3>
@@ -138,7 +138,7 @@
                   <div class="card-body">
                     <div class="dash-widget-header">
                       <span class="dash-widget-icon text-success">
-                        <i class="fe fe-users"></i>
+                        <i class="fas fa-users"></i>
                       </span>
                       <div class="dash-count">
                         <h3>{{total_patient_count.count}}</h3>
@@ -160,7 +160,7 @@
                   <div class="card-body">
                     <div class="dash-widget-header">
                       <span class="dash-widget-icon text-danger border-danger">
-                        <i class="fe fe-users"></i>
+                        <i class="fas fa-hospital"></i>
                       </span>
                       <div class="dash-count">
                         <h3>{{total_hospital_count.count}}</h3>
@@ -182,7 +182,7 @@
                   <div class="card-body">
                     <div class="dash-widget-header">
                       <span class="dash-widget-icon text-warning border-warning">
-                        <i class="fe fe-users"></i>
+                        <i class="fas fa-flask"></i>
                       </span>
                       <div class="dash-count">
                         <h3>{{total_labworker_count.count}}</h3>

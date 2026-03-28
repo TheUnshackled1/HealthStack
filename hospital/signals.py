@@ -41,7 +41,7 @@ def createPatient(sender, instance, created, **kwargs):
         elif instance.is_doctor:
             user = instance
             Doctor_Information.objects.create(
-                user=user, username=user.username, email=user.email)
+                user=user, username=user.username, email=user.email, register_status='Accepted')
         elif instance.is_hospital_admin:
             user = instance
             Admin_Information.objects.create(
