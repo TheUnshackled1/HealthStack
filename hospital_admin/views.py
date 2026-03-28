@@ -203,7 +203,11 @@ def appointment_list(request):
 
 @login_required(login_url='admin_login')
 def transactions_list(request):
-    return render(request, 'hospital_admin/transactions-list.html')
+    if request.user.is_hospital_admin:
+        user = Admin_Information.objects.get(user=request.user)
+    payments = Payment.objects.all().order_by('-payment_id')
+    context = {'payments': payments, 'admin': user}
+    return render(request, 'hospital_admin/transactions-list.html', context)
 
 @csrf_exempt
 @login_required(login_url='admin_login')
@@ -446,15 +450,24 @@ def create_invoice(request, pk):
     if request.method == 'POST':
         invoice = Payment(patient=patient)
         
-        consulation_fee = request.POST['consulation_fee']
-        report_fee = request.POST['report_fee']
-        #total_ammount = request.POST['currency_amount']
-        invoice.currency_amount = int(consulation_fee) + int(report_fee)
+        # Get form fields with defaults
+        consulation_fee = request.POST.get('consulation_fee', '') or '0'
+        report_fee = request.POST.get('report_fee', '') or '0'
+        currency_amount = request.POST.get('currency_amount', '')
+        
+        # Calculate total if not provided
+        if not currency_amount:
+            currency_amount = str(float(consulation_fee) + float(report_fee))
+        
+        invoice.currency_amount = currency_amount
         invoice.consulation_fee = consulation_fee
         invoice.report_fee = report_fee
         invoice.invoice_number = generate_random_invoice()
-        invoice.name = patient
-        invoice.status = 'Pending'
+        invoice.name = patient.name
+        invoice.payment_type = request.POST.get('payment_type', 'appointment')
+        invoice.status = request.POST.get('status', 'Pending')
+        invoice.transaction_id = request.POST.get('transaction_id', '')
+        invoice.transaction_date = request.POST.get('transaction_date', '')
     
         invoice.save()
         return redirect('patient-list')
