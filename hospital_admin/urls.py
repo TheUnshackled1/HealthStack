@@ -15,6 +15,8 @@ urlpatterns = [
     # Removed: Doctor approval workflow (doctors are now auto-accepted on registration)
     # path('pending-doctor-list/', views.pending_doctor_list,name='pending-doctor-list'),
     path('forgot-password/', views.admin_forgot_password,name='admin_forgot_password'),
+    path('admin-change-password/<int:pk>/', views.admin_change_password,name='admin-change-password'),
+    path('admin-verify-otp-change-password/<int:pk>/', views.admin_verify_otp_change_password,name='admin-verify-otp-change-password'),
     path('hospital-list/', views.hospital_list,name='hospital-list'),
     path('add-hospital/', views.add_hospital,name='add-hospital'),
     path('edit-hospital/<int:pk>/', views.edit_hospital,name='edit-hospital'),

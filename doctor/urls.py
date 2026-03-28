@@ -14,6 +14,7 @@ urlpatterns = [
     path('doctor-dashboard/',views.doctor_dashboard, name='doctor-dashboard'),
     path('doctor-profile/<int:pk>/', views.doctor_profile, name='doctor-profile'),
     path('doctor-change-password/<int:pk>', views.doctor_change_password,name='doctor-change-password'),
+    path('doctor-verify-otp-change-password/<int:pk>', views.doctor_verify_otp_change_password,name='doctor-verify-otp-change-password'),
     path('doctor-profile-settings/', views.doctor_profile_settings,name='doctor-profile-settings'),
     path('doctor-register/', views.doctor_register, name='doctor-register'),
     path('doctor-logout/', views.logoutDoctor, name='doctor-logout'),
