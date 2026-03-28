@@ -431,7 +431,6 @@ def delete_hospital(request, pk):
 	return redirect('hospital-list')
 
 
-@login_required(login_url='admin_login')
 def generate_random_invoice():
     N = 4
     string_var = ""
