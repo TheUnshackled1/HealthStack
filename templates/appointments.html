@@ -26,11 +26,11 @@
     <!-- Fontawesome CSS -->
     <link
       rel="stylesheet"
-      href="{% static 'HealthStack-System/plugins/Normal/fontawesome/css/fontawesome.min.css' %}"
+      href="{% static 'HealthStack-System/Outside_assets/plugins/fontawesome/css/fontawesome.min.css' %}"
     />
     <link
       rel="stylesheet"
-      href="{% static 'HealthStack-System/plugins/Normal/fontawesome/css/all.min.css' %}"
+      href="{% static 'HealthStack-System/Outside_assets/plugins/fontawesome/css/all.min.css' %}"
     />
 
     <!-- Main CSS -->
@@ -86,7 +86,9 @@
             
             <div class="col-md-7 col-lg-8 col-xl-9">
               <div class="appointments">
+                {% include 'message.html' %}
                 <!-- Appointment List -->
+                {% if appointments %}
                 {% for app in appointments %}
                 <div class="appointment-list">
                   <div class="profile-info-widget">
@@ -139,6 +141,15 @@
                 </div>
                 <!-- /Appointment List -->
                 {% endfor %}
+                {% else %}
+                <div class="card">
+                  <div class="card-body text-center py-5">
+                    <i class="fas fa-calendar-times fa-3x text-muted mb-3"></i>
+                    <h5 class="text-muted">No Pending Appointments</h5>
+                    <p class="text-muted mb-0">You don't have any pending appointments at the moment.</p>
+                  </div>
+                </div>
+                {% endif %}
                 
               </div>
               
@@ -214,18 +225,15 @@
     <!-- /Appointment Details Modal -->
 
     <!-- jQuery -->
-    <script src="{% static 'HealthStack-System/js/Normal/jquery.min.js' %}"></script>
+    <script src="{% static 'HealthStack-System/Outside_assets/js/jquery.min.js' %}"></script>
 
     <!-- Bootstrap Core JS -->
-    <script src="{% static 'HealthStack-System/js/Normal/popper.min.js' %}"></script>
-    <script src="{% static 'HealthStack-System/js/Normal/bootstrap.min.js' %}"></script>
+    <script src="{% static 'HealthStack-System/Outside_assets/js/popper.min.js' %}"></script>
+    <script src="{% static 'HealthStack-System/Outside_assets/js/bootstrap.min.js' %}"></script>
 
     <!-- Sticky Sidebar JS -->
-    <script src="{% static 'HealthStack-System/plugins/Normal/theia-sticky-sidebar/ResizeSensor.js' %}"></script>
-    <script src="{% static 'HealthStack-System/plugins/Normal/theia-sticky-sidebar/theia-sticky-sidebar.js' %}"></script>
-
-    <!-- Custom JS -->
-    <script src="{% static 'HealthStack-System/js/Normal/script.js' %}"></script>
+    <script src="{% static 'HealthStack-System/Outside_assets/plugins/theia-sticky-sidebar/ResizeSensor.js' %}"></script>
+    <script src="{% static 'HealthStack-System/Outside_assets/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js' %}"></script>
 
     <!-- Custom JS -->
     <script src="{% static 'HealthStack-System/Outside_assets/js/script.js' %}"></script>
