@@ -162,9 +162,19 @@
                         <strong>Total</strong>
                         <strong>{{ order.final_bill|floatformat:2 }} BDT</strong>
                       </div>
-                      <a href="{% url 'ssl-payment-request-medicine' pk=order.user.patient.patient_id id=order.id %}" class="btn btn-primary btn-block">
-                        Proceed to Checkout
-                      </a>
+                      <div class="alert alert-info text-center mb-0">
+                        <i class="fas fa-info-circle"></i> Please pay at pharmacy counter
+                        <br>
+                        <small class="text-muted">Status: 
+                          {% if order.payment_status == 'Paid' or order.payment_status == 'VALID' %}
+                            <span class="badge badge-success">Paid</span>
+                          {% elif order.payment_status == 'Partial' %}
+                            <span class="badge badge-info">Partial</span>
+                          {% else %}
+                            <span class="badge badge-warning">Pending</span>
+                          {% endif %}
+                        </small>
+                      </div>
                     </div>
                   </div>
                 </div>
