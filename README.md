@@ -1,7 +1,8 @@
 # HealthStack-System
 
-- An online platform that caters to multiple hospitals, enabling efficient tracking, monitoring, and sharing of patient health records between themselves. Patients can access information on various hospitals and doctors, book appointments online, purchase medicines from an online pharmacy, and even chat with their appointed doctors.
-- Software Engineering Project - Bachelor of Science in Information Systems
+An online platform that caters to multiple hospitals, enabling efficient tracking, monitoring, and sharing of patient health records between themselves. Patients can access information on various hospitals and doctors, book appointments online, purchase medicines from an online pharmacy, view laboratory tests and billing status, and even chat with their appointed doctors.
+
+**Software Engineering Project** – B.Sc. in Information Systems
 
 ## Tech Stack and Tools used:
       1) Programming Language and Libraries: Django (Python web framework), Bootstrap, JavaScript, Ajax, Django REST framework.
@@ -13,6 +14,11 @@ This system uses **manual billing and payment tracking**:
 - Hospital admin, pharmacists, and lab workers can record payments manually
 - Patients see unified billing view with all payment types (appointments, pharmacy, lab tests)
 - Status tracking: Pending, Partial, Paid
+
+## Security Features
+- **OTP Password Verification**: Password changes require a 6-digit OTP sent via email (10-minute expiry)
+- **Role-based Access Control**: Separate dashboards and permissions for each user type
+- **Session Management**: Login status tracking and secure logout
 
 ## Contributor
       John Tyrone P. Coronel
@@ -35,35 +41,68 @@ This system uses **manual billing and payment tracking**:
       9)  Give Doctor Review
       10) Search for Medicines in Medical Shop (Pharmacy)
       11) Select medicines to purchase (Cart system), view billing status (pay at pharmacy)
+      12) Lab Test Cart System - Add/remove tests with pricing
+      13) Profile Settings - Update personal info (blood group, NID, address, DOB)
+      14) Change Password with OTP verification
       
 ### Doctor 
-      1)  Doctor Profile Settings (Add More feature)
-      2)  Search multiple Hospital → Doctor register to hospital + upload certificate
-      3)  (Once registered by admin) accept or reject patients appointment (mail confirmation send to patient)
+      1)  Doctor Profile Settings (Add education, experience, certifications)
+      2)  Search multiple Hospital → Doctor register to hospital + upload certificate (auto-approved)
+      3)  Accept or reject patient appointments (email confirmation sent to patient)
       4)  Search patient profile → Create and view Prescription, view report
       5)  Chat with appointed Patient
+      6)  Schedule Timings - Set availability schedule
+      7)  Change Password with OTP verification
       
 ### Hospital Admin
-      1)  Admin Dashboard
-      2)  Accept or reject doctor registration (view doctor profile to see details)
+      1)  Admin Dashboard with statistics overview
+      2)  View registered doctors list and doctor profiles
       3)  CRUD Hospitals (Add more)
       4)  View Hospital List → CRUD Departments within hospital
       5)  CRUD Lab Worker
       6)  CRUD Pharmacist
       7)  View all transactions and payment records
       8)  Create invoices for patients (manual billing)
+      9)  Manage Hospital Bed Tracking (General, ICU, Regular Cabin, Emergency Cabin, VIP Cabin)
+      10) Change Password with OTP verification
 
-### Lab worker
+### Lab Worker
       1)  Lab Worker Dashboard
-      2)  Create Report for patient.
+      2)  Create Report for patient
       3)  Create Tests for hospitals, View Tests
       4)  Record test payment status
+      5)  View test orders queue
 
 ### Pharmacist
       1)  Pharmacist Dashboard
-      2)  CRUD Medicines
+      2)  CRUD Medicines (name, weight, type, category, price, stock)
       3)  Search Medicine
       4)  View orders and record medicine payment status
+
+## Hospital Bed Tracking
+Hospital admins can manage and track bed availability:
+- General Beds
+- ICU Beds
+- Regular Cabin
+- Emergency Cabin
+- VIP Cabin
+
+Patients can view hospital bed availability when searching for hospitals.
+
+## Process of the System (Project Flow)
+
+1. **Patient registers/logs in** and searches hospitals and doctors
+2. **Patient books an appointment**; doctor accepts or rejects with email notification
+3. **Doctor creates prescriptions** and can view patient reports
+4. **Lab worker creates tests and reports**; patients view results and download PDFs
+5. **Pharmacist manages medicines and orders**; patients add items to cart and view billing status
+6. **Hospital admin oversees** hospitals, departments, staff roles, and manual billing records
+7. **Patient and doctor can chat** after appointment linkage
+
+## REST API Endpoints
+- JWT Authentication (token obtain/refresh)
+- Hospital list and profile endpoints
+- API routes documentation available
 
 
 ## APIs and PyPI packages used:
