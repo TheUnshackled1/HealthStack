@@ -1,26 +1,17 @@
 {% load static %}
 
 {% for message in messages %}
-  <div class="toast notification bg-{% if message.tags == 'error' %}danger{% else %}{{message.tags}}{% endif %}" role="alert" aria-live="assertive" aria-atomic="true" data-delay="5000">
-    {% comment %} <div class="toast-header">
-      <strong class="mr-auto">
-        {% if message.tags == 'error' %}
-          <i class="fas fa-times mr-2"></i>
-        {% elif message.tags == 'warning' %}
-          <i class="fas fa-exclamation mr-2"></i>
-        {% elif message.tags == 'info' %}
-          <i class="fas fa-info mr-2"></i>
-        {% elif message.tags == 'success' %}
-          <i class="fas fa-check mr-2"></i>
-        {% endif %}
-        {{message.tags|capfirst}}
-      </strong>
-      <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div> {% endcomment %}
-    <div class="toast-body">
-      {{message|safe}}
-    </div>
+  <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{message.tags}}{% endif %} alert-dismissible fade show" role="alert" style="position: fixed; top: 80px; right: 20px; z-index: 9999; min-width: 300px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+    {% if message.tags == 'error' %}
+      <i class="fas fa-times-circle mr-2"></i>
+    {% elif message.tags == 'warning' %}
+      <i class="fas fa-exclamation-triangle mr-2"></i>
+    {% elif message.tags == 'info' %}
+      <i class="fas fa-info-circle mr-2"></i>
+    {% elif message.tags == 'success' %}
+      <i class="fas fa-check-circle mr-2"></i>
+    {% endif %}
+    {{message|safe}}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
   </div>
 {% endfor %}
