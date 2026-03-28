@@ -498,12 +498,12 @@ def doctor_profile_settings(request):
         redirect('doctor-logout')
                
 @csrf_exempt    
-@login_required(login_url="doctor-login")      
+@login_required(login_url="login")      
 def booking_success(request):
     return render(request, 'booking-success.html')
 
 @csrf_exempt
-@login_required(login_url="doctor-login")
+@login_required(login_url="login")
 def booking(request, pk):
     patient = request.user.patient
     doctor = Doctor_Information.objects.get(doctor_id=pk)
