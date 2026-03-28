@@ -106,7 +106,7 @@
 							<div class="col-sm-12 mt-100">	
 								<h3 class="page-title">Doctor Profile</h3>
 								<ul class="breadcrumb">
-									<li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+									<li class="breadcrumb-item"><a href="{% url 'admin-dashboard' %}">Dashboard</a></li>
 									<li class="breadcrumb-item"><a href="javascript:(0);">Users</a></li>
 									<li class="breadcrumb-item active">Doctor</li>
 								</ul>
@@ -180,9 +180,11 @@
 											<a href="javascript:void(0)" class="btn btn-white fav-btn">
 												<i class="far fa-bookmark"></i>
 											</a>
-											<a href="chat.html" class="btn btn-white msg-btn">
+											{% if user.is_authenticated and user.is_patient %}
+											<a href="{% url 'chat' pk=doctor.doctor_id %}" class="btn btn-white msg-btn">
 												<i class="far fa-comment-alt"></i>
 											</a>
+											{% endif %}
 											<a href="javascript:void(0)" class="btn btn-white call-btn" data-toggle="modal" data-target="#voice_call">
 												<i class="fas fa-phone"></i>
 											</a>
