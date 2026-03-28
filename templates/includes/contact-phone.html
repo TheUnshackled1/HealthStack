@@ -6,6 +6,10 @@
 {% with phone=user.profile.phone_number|stringformat:"s" %}
 <p class="contact-info-header">{% if phone|slice:":1" == "0" %}{{ phone }}{% else %}0{{ phone }}{% endif %}</p>
 {% endwith %}
+{% elif user.is_authenticated and user.is_hospital_admin and user.hospital_admin.phone_number %}
+{% with phone=user.hospital_admin.phone_number|stringformat:"s" %}
+<p class="contact-info-header">{% if phone|slice:":1" == "0" %}{{ phone }}{% else %}0{{ phone }}{% endif %}</p>
+{% endwith %}
 {% elif patient.phone_number %}
 {% with phone=patient.phone_number|stringformat:"s" %}
 <p class="contact-info-header">{% if phone|slice:":1" == "0" %}{{ phone }}{% else %}0{{ phone }}{% endif %}</p>

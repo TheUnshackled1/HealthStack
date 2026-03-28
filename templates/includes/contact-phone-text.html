@@ -1,0 +1,13 @@
+{% if user.is_authenticated and user.is_patient and user.patient.phone_number %}
+{% with phone=user.patient.phone_number|stringformat:"s" %}{% if phone|slice:":1" == "0" %}{{ phone }}{% else %}0{{ phone }}{% endif %}{% endwith %}
+{% elif user.is_authenticated and user.is_doctor and user.profile.phone_number %}
+{% with phone=user.profile.phone_number|stringformat:"s" %}{% if phone|slice:":1" == "0" %}{{ phone }}{% else %}0{{ phone }}{% endif %}{% endwith %}
+{% elif user.is_authenticated and user.is_hospital_admin and user.hospital_admin.phone_number %}
+{% with phone=user.hospital_admin.phone_number|stringformat:"s" %}{% if phone|slice:":1" == "0" %}{{ phone }}{% else %}0{{ phone }}{% endif %}{% endwith %}
+{% elif patient.phone_number %}
+{% with phone=patient.phone_number|stringformat:"s" %}{% if phone|slice:":1" == "0" %}{{ phone }}{% else %}0{{ phone }}{% endif %}{% endwith %}
+{% elif doctor.phone_number %}
+{% with phone=doctor.phone_number|stringformat:"s" %}{% if phone|slice:":1" == "0" %}{{ phone }}{% else %}0{{ phone }}{% endif %}{% endwith %}
+{% else %}
+Not set
+{% endif %}

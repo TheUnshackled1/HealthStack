@@ -149,7 +149,7 @@
 																	<div class="col-12 col-sm-6">
 																		<div class="form-group">
 																			<label>Mobile</label>
-																			<input type="text" value="+1 202-555-0125" class="form-control">
+																			<input type="text" value="{% if user.is_authenticated and user.is_hospital_admin and user.hospital_admin.phone_number %}0{{ user.hospital_admin.phone_number }}{% endif %}" class="form-control">
 																		</div>
 																	</div>
 																	<div class="col-12">
