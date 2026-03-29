@@ -47,9 +47,35 @@ $(function(){
 	    resize: true,
 		redraw: true
 	});
+
+	/* Morris Bar Chart - Appointments */
+	if (typeof sat !== 'undefined' && document.getElementById('barChart_2')) {
+		window.mB = Morris.Bar({
+			element: 'barChart_2',
+			data: [
+				{ day: sat, appointments: parseInt(sat_count) || 0 },
+				{ day: sun, appointments: parseInt(sun_count) || 0 },
+				{ day: mon, appointments: parseInt(mon_count) || 0 },
+				{ day: tues, appointments: parseInt(tues_count) || 0 },
+				{ day: wed, appointments: parseInt(wed_count) || 0 },
+				{ day: thurs, appointments: parseInt(thurs_count) || 0 },
+				{ day: fri, appointments: parseInt(fri_count) || 0 }
+			],
+			xkey: 'day',
+			ykeys: ['appointments'],
+			labels: ['Appointments'],
+			barColors: ['#1b5a90'],
+			gridTextSize: 10,
+			hideHover: 'auto',
+			resize: true,
+			redraw: true
+		});
+	}
+
 	$(window).on("resize", function(){
 		mA.redraw();
 		mL.redraw();
+		if (window.mB) mB.redraw();
 	});
 
 });
