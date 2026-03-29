@@ -387,18 +387,25 @@ def add_hospital(request):
             address = request.POST.get('address')
             description = request.POST.get('description')
             email = request.POST.get('email')
-            phone_number = request.POST.get('phone_number') 
+            phone_number_raw = request.POST.get('phone_number')
             hospital_type = request.POST.get('type')
             specialization_name = request.POST.getlist('specialization')
             department_name = request.POST.getlist('department')
             service_name = request.POST.getlist('service')
             
+            # Validate phone number
+            try:
+                phone_number = int(phone_number_raw) if phone_number_raw else None
+            except ValueError:
+                messages.error(request, 'Phone number must contain only digits')
+                context = {'admin': user}
+                return render(request, 'hospital_admin/add-hospital.html', context)
         
             hospital.name = hospital_name
             hospital.description = description
             hospital.address = address
             hospital.email = email
-            hospital.phone_number =phone_number
+            hospital.phone_number = phone_number
             hospital.featured_image=featured_image 
             hospital.hospital_type=hospital_type
             
