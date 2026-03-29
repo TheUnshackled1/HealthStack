@@ -91,10 +91,12 @@
 													<td>
 														<h2 class="table-avatar">
 															<a href="#" class="avatar avatar-xl mr-2">
-																<img src="{{dep.featured_image.url}}" alt="Speciality">
+																{% if dep.featured_image %}
+																<img src="{{dep.featured_image.url}}" alt="{{dep.hospital_department_name}}">
+																{% else %}
+																<img src="{% static 'HealthStack-System/images/Normal/doctors/user-default.png' %}" alt="{{dep.hospital_department_name}}">
+																{% endif %}
 															</a>
-															<!-- class="avatar-img" -->
-															<!-- class="avatar avatar-sm mr-2" -->
 														</h2>
 													</td>
 
@@ -102,10 +104,10 @@
 												
 													<td class="text-center">
 														<div class="actions">
-															<a class="btn btn-sm bg-success-light" data-toggle="modal" data-target="#modal-default{{dep.hospital_department_name}}">
+															<a class="btn btn-sm bg-success-light" data-toggle="modal" data-target="#modal-edit-{{dep.hospital_department_id}}">
 																<i class="fas fa-pencil-alt"></i> Edit
 															</a>
-															<a  data-toggle="modal" data-target="#delete_modal{{dep.hospital_department_id}}" class="btn btn-sm bg-danger-light">
+															<a  data-toggle="modal" data-target="#modal-delete-{{dep.hospital_department_id}}" class="btn btn-sm bg-danger-light">
 																<i class="fas fa-trash"></i> Delete
 															</a>
 															
@@ -113,68 +115,6 @@
 													</td>
 													
 												</tr>
-
-												<div class="modal fade" id="modal-default{{dep.hospital_department_name}}" aria-hidden="true" role="dialog">
-												<form action="{%url 'edit-department' pk=dep.hospital_department_id%}" method="POST"
-													enctype="multipart/form-data">
-													{% csrf_token %}
-													<div class="modal-dialog modal-dialog-centered" role="document" >
-														<div class="modal-content">
-															<div class="modal-header">
-																<h5 class="modal-title">Edit Department Name</h5>
-																<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-																	<span aria-hidden="true">&times;</span>
-																</button>
-															</div>
-															<div class="modal-body">
-																
-																	<div class="row form-row">
-																		<div class="col-12 col-sm-6">
-																			<div class="form-group">
-																				<label>Department Name</label>
-																				<input type="text" class="form-control" name="department_name" value={{dep.hospital_department_name}}>
-																				
-																			</div>
-																		</div>
-																		
-																		<div class="col-12 col-sm-6">
-																			<div class="form-group">
-																				<label>Image</label>
-																				<input type="file" name="featured_image" class="form-control">
-																			</div>
-																		</div>
-																		
-																	</div>
-																	<button type="submit" class="btn btn-primary btn-block">Save Changes</button>
-																
-															</div>
-														</div>
-													</div>
-												</form>
-												</div>
-										
-												<div class="modal fade" id="delete_modal{{dep.hospital_department_id}}" aria-hidden="true" role="dialog">
-													<form method="POST" action="{%url 'delete-department' pk=dep.hospital_department_id%}">
-													<div class="modal-dialog modal-dialog-centered" role="document" >
-														<div class="modal-content">
-															{% csrf_token %}
-																<div class="modal-body">
-																<div class="form-content p-2">
-																	<h4 class="modal-title" style="display:flex;justify-content: center;align-items: center;">Delete</h4>
-																	<p class="mb-4"  style="display:flex;justify-content: center;align-items: center;">Are you sure want to delete?</p>
-																	<div style="display:flex;justify-content: center">
-																		<button type="submit" class="btn btn-primary" style="margin-right: 5px;">Save</button>
-																		<button type="button" class="btn btn-danger" style="margin-left: 5px;" data-dismiss="modal">Close</button>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-													</form>
-												</div>	
-												
-
-												
 											{%endfor%}
 											</tbody>
 										</table>
@@ -186,6 +126,62 @@
 				</div>			
 			</div>
         </div>
+
+		<!-- Modals -->
+		{%for dep in departments%}
+		<div class="modal fade" id="modal-edit-{{dep.hospital_department_id}}" aria-hidden="true" role="dialog">
+			<form action="{%url 'edit-department' pk=dep.hospital_department_id%}" method="POST" enctype="multipart/form-data">
+				{% csrf_token %}
+				<div class="modal-dialog modal-dialog-centered" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">Edit Department Name</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<div class="row form-row">
+								<div class="col-12 col-sm-6">
+									<div class="form-group">
+										<label>Department Name</label>
+										<input type="text" class="form-control" name="department_name" value="{{dep.hospital_department_name}}">
+									</div>
+								</div>
+								<div class="col-12 col-sm-6">
+									<div class="form-group">
+										<label>Image</label>
+										<input type="file" name="featured_image" class="form-control">
+									</div>
+								</div>
+							</div>
+							<button type="submit" class="btn btn-primary btn-block">Save Changes</button>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+
+		<div class="modal fade" id="modal-delete-{{dep.hospital_department_id}}" aria-hidden="true" role="dialog">
+			<form method="POST" action="{%url 'delete-department' pk=dep.hospital_department_id%}">
+				{% csrf_token %}
+				<div class="modal-dialog modal-dialog-centered" role="document">
+					<div class="modal-content">
+						<div class="modal-body">
+							<div class="form-content p-2">
+								<h4 class="modal-title" style="display:flex;justify-content: center;align-items: center;">Delete</h4>
+								<p class="mb-4" style="display:flex;justify-content: center;align-items: center;">Are you sure want to delete?</p>
+								<div style="display:flex;justify-content: center">
+									<button type="submit" class="btn btn-primary" style="margin-right: 5px;">Save</button>
+									<button type="button" class="btn btn-danger" style="margin-left: 5px;" data-dismiss="modal">Close</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+		{%endfor%}
 
 		
 	
