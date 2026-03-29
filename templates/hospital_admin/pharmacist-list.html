@@ -85,8 +85,8 @@
 														<tr>
 															<td>
 																<h2 class="table-avatar">
-																	<a href="profile.html" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="{{p.featured_image.url}}" alt="User Image"></a>
-																	<a href="profile.html">{{p.name}}</a>
+																	<a href="{% url 'edit-pharmacist' pk=p.pharmacist_id %}" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="{{p.featured_image.url}}" alt="User Image"></a>
+																	<a href="{% url 'edit-pharmacist' pk=p.pharmacist_id %}">{{p.name}}</a>
 																</h2>
 															</td>
 															<td>{{p.username}}</td>
