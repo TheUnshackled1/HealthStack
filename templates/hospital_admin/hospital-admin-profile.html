@@ -66,15 +66,6 @@
 						<div class="col-md-12">
 							<div class="profile-header">
 								<div class="row align-items-center">
-									<div class="col-auto profile-image">
-										<a href="#">
-											{% if admin.featured_image %}
-											<img class="rounded-circle" alt="User Image" src="{{ admin.featured_image.url }}">
-											{% else %}
-											<img class="rounded-circle" alt="User Image" src="{% static 'HealthStack-System/images/Normal/doctors/user-default.png' %}">
-											{% endif %}
-										</a>
-									</div>
 									<div class="col ml-md-n2 profile-user-info">
 										<h4 class="user-name mb-0">{{ admin.name|default:admin.username }}</h4>
 									</div>
