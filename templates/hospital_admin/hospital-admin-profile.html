@@ -68,11 +68,15 @@
 								<div class="row align-items-center">
 									<div class="col-auto profile-image">
 										<a href="#">
+											{% if admin.featured_image %}
 											<img class="rounded-circle" alt="User Image" src="{{ admin.featured_image.url }}">
+											{% else %}
+											<img class="rounded-circle" alt="User Image" src="{% static 'HealthStack-System/images/Normal/user-default.png' %}">
+											{% endif %}
 										</a>
 									</div>
 									<div class="col ml-md-n2 profile-user-info">
-										<h4 class="user-name mb-0">{{ admin.name }}</h4>
+										<h4 class="user-name mb-0">{{ admin.name|default:admin.username }}</h4>
 									</div>
 								</div>
 							</div>	
@@ -91,15 +95,15 @@
 													</h5>
 													<div class="row">
 														<p class="col-sm-2 text-muted text-sm-right mb-0 mb-sm-3">Name</p>
-														<p class="col-sm-10">{{ admin.name }}</p>
+														<p class="col-sm-10">{{ admin.name|default:admin.username|default:"Not set" }}</p>
 													</div>
 													<div class="row">
 														<p class="col-sm-2 text-muted text-sm-right mb-0 mb-sm-3">Email ID</p>
-														<p class="col-sm-10">{{ admin.email}}</p>
+														<p class="col-sm-10">{{ admin.email|default:"Not set" }}</p>
 													</div>
 													<div class="row">
 														<p class="col-sm-2 text-muted text-sm-right mb-0 mb-sm-3">Mobile</p>
-														<p class="col-sm-10">0{{ admin.phone_number }}</p>
+														<p class="col-sm-10">{% if admin.phone_number %}0{{ admin.phone_number }}{% else %}Not set{% endif %}</p>
 													</div>
 													{% comment %} <div class="row">
 														<p class="col-sm-2 text-muted text-sm-right mb-0">Address</p>
