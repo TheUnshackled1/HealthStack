@@ -104,10 +104,10 @@
 												
 													<td class="text-center">
 														<div class="actions">
-															<a class="btn btn-sm bg-success-light" data-toggle="modal" data-target="#modal-edit-{{dep.hospital_department_id}}">
+															<a href="#" class="btn btn-sm bg-success-light" data-toggle="modal" data-target="#modal-edit-{{dep.hospital_department_id}}" style="cursor:pointer;">
 																<i class="fas fa-pencil-alt"></i> Edit
 															</a>
-															<a  data-toggle="modal" data-target="#modal-delete-{{dep.hospital_department_id}}" class="btn btn-sm bg-danger-light">
+															<a href="#" data-toggle="modal" data-target="#modal-delete-{{dep.hospital_department_id}}" class="btn btn-sm bg-danger-light" style="cursor:pointer;">
 																<i class="fas fa-trash"></i> Delete
 															</a>
 															
@@ -221,11 +221,11 @@
 		<!-- /Main Wrapper -->
 		
 		<!-- jQuery -->
-        <script src="{% static 'HealthStack-System/js/admin/jquery-3.2.1.min.js' %}"></script> 
+        <script src="{% static 'HealthStack-System/admin_assets/js/jquery-3.2.1.min.js' %}"></script> 
 		
 		<!-- Bootstrap Core JS -->
-        <script src="{% static 'HealthStack-System/js/admin/popper.min.js' %}"></script> 
-        <script src="{% static 'HealthStack-System/js/admin/bootstrap.min.js' %}"></script> 
+        <script src="{% static 'HealthStack-System/admin_assets/js/popper.min.js' %}"></script> 
+        <script src="{% static 'HealthStack-System/admin_assets/js/bootstrap.min.js' %}"></script> 
 		
 		<!-- Slimscroll JS -->
         <script src="{% static 'HealthStack-System/plugins/admin/slimscroll/jquery.slimscroll.min.js' %}"></script>
