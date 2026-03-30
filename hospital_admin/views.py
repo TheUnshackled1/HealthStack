@@ -720,6 +720,13 @@ def add_pharmacist(request):
                 user.is_pharmacist = True
                 user.save()
 
+                # Create the associated Pharmacist profile
+                Pharmacist.objects.create(
+                    user=user,
+                    username=user.username,
+                    email=user.email
+                )
+
                 messages.success(request, 'Pharmacist account was created!')
 
                 # After user is created, we can log them in
@@ -875,6 +882,13 @@ def add_lab_worker(request):
                 user = form.save(commit=False)
                 user.is_labworker = True
                 user.save()
+
+                # Create the associated Clinical_Laboratory_Technician profile
+                Clinical_Laboratory_Technician.objects.create(
+                    user=user,
+                    username=user.username,
+                    email=user.email
+                )
 
                 messages.success(request, 'Clinical Laboratory Technician account was created!')
 
