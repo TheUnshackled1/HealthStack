@@ -54,6 +54,11 @@
         max-width: 300px;
         margin: 0 auto;
       }
+      /* Fix specialities slider items width for slick */
+      .specialities-slider .speicality-item {
+        width: 180px;
+        margin: 0 10px;
+      }
     </style>
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -103,79 +108,84 @@
           </div>
           <div class="row justify-content-center">
             <div class="col-md-9">
-              <!-- Slider -->
-              <div class="specialities-slider slider">
-                <!-- Slider Item -->
+              <!-- Specialities Grid -->
+              <div class="d-flex justify-content-center flex-wrap" style="gap: 30px;">
+                <!-- Item -->
                 <div class="speicality-item text-center">
-                  <div class="speicality-img">
+                  <div class="speicality-img" style="width: 150px; height: 150px; border-radius: 50%; background: #fff; box-shadow: 2px 2px 13px rgba(0,0,0,0.1); position: relative; margin: 0 auto;">
                     <img
                       src="{% static 'HealthStack-System/images/Normal/specialities/specialities-01.png' %}"
                       class="img-fluid"
                       alt="Speciality"
+                      style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"
                     />
-                    <span><i class="fa fa-circle" aria-hidden="true"></i></span>
+                    <span style="position: absolute; bottom: 10px; right: 10px; background: #fff; border-radius: 50%; padding: 5px; box-shadow: 1px 6px 14px rgba(0,0,0,0.2);"><i class="fa fa-circle" style="color: #0de0fe; font-size: 15px;" aria-hidden="true"></i></span>
                   </div>
-                  <p>Urology</p>
+                  <p style="font-size: 16px; font-weight: 500; margin-top: 20px;">Urology</p>
                 </div>
-                <!-- /Slider Item -->
+                <!-- /Item -->
 
-                <!-- Slider Item -->
+                <!-- Item -->
                 <div class="speicality-item text-center">
-                  <div class="speicality-img">
+                  <div class="speicality-img" style="width: 150px; height: 150px; border-radius: 50%; background: #fff; box-shadow: 2px 2px 13px rgba(0,0,0,0.1); position: relative; margin: 0 auto;">
                     <img
                       src="{% static 'HealthStack-System/images/Normal/specialities/specialities-02.png' %}"
                       class="img-fluid"
                       alt="Speciality"
+                      style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"
                     />
-                    <span><i class="fa fa-circle" aria-hidden="true"></i></span>
+                    <span style="position: absolute; bottom: 10px; right: 10px; background: #fff; border-radius: 50%; padding: 5px; box-shadow: 1px 6px 14px rgba(0,0,0,0.2);"><i class="fa fa-circle" style="color: #0de0fe; font-size: 15px;" aria-hidden="true"></i></span>
                   </div>
-                  <p>Neurology</p>
+                  <p style="font-size: 16px; font-weight: 500; margin-top: 20px;">Neurology</p>
                 </div>
-                <!-- /Slider Item -->
+                <!-- /Item -->
 
-                <!-- Slider Item -->
+                <!-- Item -->
                 <div class="speicality-item text-center">
-                  <div class="speicality-img">
+                  <div class="speicality-img" style="width: 150px; height: 150px; border-radius: 50%; background: #fff; box-shadow: 2px 2px 13px rgba(0,0,0,0.1); position: relative; margin: 0 auto;">
                     <img
                       src="{% static 'HealthStack-System/images/Normal/specialities/specialities-03.png' %}"
                       class="img-fluid"
                       alt="Speciality"
+                      style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"
                     />
-                    <span><i class="fa fa-circle" aria-hidden="true"></i></span>
+                    <span style="position: absolute; bottom: 10px; right: 10px; background: #fff; border-radius: 50%; padding: 5px; box-shadow: 1px 6px 14px rgba(0,0,0,0.2);"><i class="fa fa-circle" style="color: #0de0fe; font-size: 15px;" aria-hidden="true"></i></span>
                   </div>
-                  <p>Orthopedic</p>
+                  <p style="font-size: 16px; font-weight: 500; margin-top: 20px;">Orthopedic</p>
                 </div>
-                <!-- /Slider Item -->
+                <!-- /Item -->
 
-                <!-- Slider Item -->
+                <!-- Item -->
                 <div class="speicality-item text-center">
-                  <div class="speicality-img">
+                  <div class="speicality-img" style="width: 150px; height: 150px; border-radius: 50%; background: #fff; box-shadow: 2px 2px 13px rgba(0,0,0,0.1); position: relative; margin: 0 auto;">
                     <img
                       src="{% static 'HealthStack-System/images/Normal/specialities/specialities-04.png' %}"
                       class="img-fluid"
                       alt="Speciality"
+                      style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"
                     />
-                    <span><i class="fa fa-circle" aria-hidden="true"></i></span>
+                    <span style="position: absolute; bottom: 10px; right: 10px; background: #fff; border-radius: 50%; padding: 5px; box-shadow: 1px 6px 14px rgba(0,0,0,0.2);"><i class="fa fa-circle" style="color: #0de0fe; font-size: 15px;" aria-hidden="true"></i></span>
                   </div>
-                  <p>Cardiologist</p>
+                  <p style="font-size: 16px; font-weight: 500; margin-top: 20px;">Cardiologist</p>
                 </div>
-                <!-- /Slider Item -->
+                <!-- /Item -->
 
-                <!-- Slider Item -->
+                <!-- Item -->
                 <div class="speicality-item text-center">
-                  <div class="speicality-img">
+                  <div class="speicality-img" style="width: 150px; height: 150px; border-radius: 50%; background: #fff; box-shadow: 2px 2px 13px rgba(0,0,0,0.1); position: relative; margin: 0 auto;">
                     <img
                       src="{% static 'HealthStack-System/images/Normal/specialities/specialities-05.png' %}"
                       class="img-fluid"
                       alt="Speciality"
+                      style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"
                     />
-                    <span><i class="fa fa-circle" aria-hidden="true"></i></span>
+                    <span style="position: absolute; bottom: 10px; right: 10px; background: #fff; border-radius: 50%; padding: 5px; box-shadow: 1px 6px 14px rgba(0,0,0,0.2);"><i class="fa fa-circle" style="color: #0de0fe; font-size: 15px;" aria-hidden="true"></i></span>
                   </div>
-                  <p>Dentist</p>
+                  <p style="font-size: 16px; font-weight: 500; margin-top: 20px;">Dentist</p>
                 </div>
-                <!-- /Slider Item -->
+                <!-- /Item -->
               </div>
-              <!-- /Slider -->
+              <!-- /Specialities Grid -->
             </div>
           </div>
         </div>
@@ -340,6 +350,30 @@
 
     <!-- Custom JS -->
     <script src="{% static 'HealthStack-System/Outside_assets/js/script.js' %}"></script>
+    
+    <!-- Initialize Slick Slider for Specialities -->
+    <script>
+      $(document).ready(function(){
+        if($('.specialities-slider').length > 0 && !$('.specialities-slider').hasClass('slick-initialized')) {
+          $('.specialities-slider').slick({
+            dots: true,
+            autoplay: false,
+            infinite: true,
+            variableWidth: true,
+            prevArrow: false,
+            nextArrow: false
+          });
+        }
+        if($('.doctor-slider').length > 0 && !$('.doctor-slider').hasClass('slick-initialized')) {
+          $('.doctor-slider').slick({
+            dots: false,
+            autoplay: false,
+            infinite: true,
+            variableWidth: true
+          });
+        }
+      });
+    </script>
   </body>
 
   <!-- doccure/index.html  30 Nov 2019 04:12:03 GMT -->
