@@ -572,6 +572,11 @@ def create_invoice(request, pk):
         user = Admin_Information.objects.get(user=request.user)
 
     patient = Patient.objects.get(patient_id=pk)
+    
+    # Get patient's pending/confirmed appointments for selection
+    appointments = Appointment.objects.filter(patient=patient).filter(
+        appointment_status__in=['pending', 'confirmed']
+    ).order_by('-date')
 
     if request.method == 'POST':
         invoice = Payment(patient=patient)
@@ -605,11 +610,24 @@ def create_invoice(request, pk):
             from datetime import datetime
             transaction_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         invoice.transaction_date = transaction_date
+        
+        # Link to selected appointment and update its payment status
+        appointment_id = request.POST.get('appointment_id', '').strip()
+        if appointment_id:
+            try:
+                appointment = Appointment.objects.get(id=appointment_id)
+                invoice.appointment = appointment
+                # Update the appointment's payment_status to match the invoice status
+                appointment.payment_status = invoice.status
+                appointment.transaction_id = invoice.transaction_id
+                appointment.save()
+            except Appointment.DoesNotExist:
+                pass
     
         invoice.save()
         return redirect('patient-list')
 
-    context = {'patient': patient,'admin': user}
+    context = {'patient': patient, 'admin': user, 'appointments': appointments}
     return render(request, 'hospital_admin/create-invoice.html', context)
 
 

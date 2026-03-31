@@ -71,13 +71,18 @@
 										<div class="row">
 											<div class="col-md-6">
 												<div class="form-group">
-													<label>Payment Type <span class="text-danger">*</span></label>
-													<select class="form-control" name="payment_type" required>
-														<option value="appointment">Appointment / Consultation</option>
-														<option value="pharmacy">Pharmacy / Medicine</option>
-														<option value="test">Lab Test</option>
-														<option value="other">Other</option>
+													<label>Select Appointment <span class="text-danger">*</span></label>
+													<select class="form-control" name="appointment_id" required>
+														<option value="">-- Select Appointment --</option>
+														{% for apt in appointments %}
+														<option value="{{apt.id}}">
+															{{apt.date}} - Dr. {{apt.doctor.name}} ({{apt.appointment_type}}) - {{apt.appointment_status}}
+														</option>
+														{% empty %}
+														<option value="" disabled>No appointments found</option>
+														{% endfor %}
 													</select>
+													<small class="text-muted">Select the appointment to link this invoice to</small>
 												</div>
 											</div>
 											<div class="col-md-6">
@@ -87,6 +92,20 @@
 														<option value="Pending">Pending</option>
 														<option value="Partial">Partial</option>
 														<option value="Paid">Paid</option>
+													</select>
+												</div>
+											</div>
+										</div>
+
+										<div class="row">
+											<div class="col-md-6">
+												<div class="form-group">
+													<label>Payment Type <span class="text-danger">*</span></label>
+													<select class="form-control" name="payment_type" required>
+														<option value="appointment">Appointment / Consultation</option>
+														<option value="pharmacy">Pharmacy / Medicine</option>
+														<option value="test">Lab Test</option>
+														<option value="other">Other</option>
 													</select>
 												</div>
 											</div>
