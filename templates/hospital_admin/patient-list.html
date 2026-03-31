@@ -72,56 +72,80 @@
 					<div class="row">
 						<div class="col-sm-12">
 							<div class="card">
+								<div class="card-header">
+									<h4 class="card-title">Patient Records</h4>
+								</div>
 								<div class="card-body">
 									<div class="table-responsive">
-										<div class="table-responsive">
-										<table class="datatable table table-hover table-center mb-0">
-											<thead>
+										<table class="datatable table table-hover table-center mb-0 table-striped">
+											<thead class="thead-light">
 												<tr>
-													<th>Patient ID</th>
-													<th>Patient Name</th>
-													<th>Age</th>
-													<th>Address</th>
-													<th>Phone</th>
-													<th>History</th>
-													<th>Action       </th>
-
-													
-													
+													<th class="text-center" style="width: 80px;">ID</th>
+													<th style="min-width: 180px;">Patient Name</th>
+													<th class="text-center" style="width: 80px;">Age</th>
+													<th style="min-width: 200px;">Address</th>
+													<th class="text-center" style="width: 130px;">Phone</th>
+													<th class="text-center" style="width: 100px;">Blood Group</th>
+													<th class="text-center" style="width: 100px;">History</th>
+													<th class="text-center" style="width: 180px;">Actions</th>
 												</tr>
 											</thead>
 											<tbody>
 												{%for patient in all%}
 												<tr>
-													<td>{{patient.patient_id}}</td>
+													<td class="text-center">
+														<span class="badge badge-primary">#{{patient.patient_id}}</span>
+													</td>
 													<td>
 														<h2 class="table-avatar">
-															<a href="profile.html" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="{{patient.featured_image.url}}" alt="User Image"></a>
-															<a href="profile.html">{{patient.name}} </a>
+															<a href="{% url 'create-invoice' pk=patient.patient_id %}" class="avatar avatar-sm mr-2">
+																<img class="avatar-img rounded-circle" src="{{patient.featured_image.url}}" alt="User Image">
+															</a>
+															<div>
+																<a href="{% url 'create-invoice' pk=patient.patient_id %}"><strong>{{patient.name}}</strong></a>
+																<span class="d-block text-muted" style="font-size: 12px;">{{patient.email}}</span>
+															</div>
 														</h2>
 													</td>
-													<td>{{patient.age}}</td>
-													<td>{{patient.address}}</td>
-													<td>{{patient.phone_number}}</td>
-													<td>{{patient.history}}</td>
-													<td>
-													<div class="table-action">
-														<a
-														  href="{% url 'create-invoice' pk=patient.patient_id %}"
-														  class="btn btn-sm bg-success-light"
-														>
-														  <i class="fas fa-dollar-sign"></i> Create Invoice
-														</a>
-							
-													  </div>
+													<td class="text-center">
+														<span class="badge badge-light">{{patient.age}} yrs</span>
 													</td>
-													
+													<td>
+														<i class="fas fa-map-marker-alt text-danger mr-1"></i>
+														{{patient.address}}
+													</td>
+													<td class="text-center">
+														<i class="fas fa-phone text-success mr-1"></i>
+														{{patient.phone_number}}
+													</td>
+													<td class="text-center">
+														{% if patient.blood_group %}
+														<span class="badge badge-danger">{{patient.blood_group}}</span>
+														{% else %}
+														<span class="text-muted">N/A</span>
+														{% endif %}
+													</td>
+													<td class="text-center">
+														{% if patient.history and patient.history != 'No' and patient.history != 'None' and patient.history != '' %}
+														<span class="badge badge-info" title="{{patient.history}}">Yes</span>
+														{% else %}
+														<span class="badge badge-light text-muted">None</span>
+														{% endif %}
+													</td>
+													<td class="text-center">
+														<div class="table-action">
+															<a href="{% url 'create-invoice' pk=patient.patient_id %}" class="btn btn-sm bg-success-light mr-1" title="Create Invoice">
+																<i class="fas fa-file-invoice-dollar"></i> Invoice
+															</a>
+															<a href="{% url 'prescription-list' pk=patient.patient_id %}" class="btn btn-sm bg-info-light" title="View Prescriptions">
+																<i class="fas fa-prescription"></i>
+															</a>
+														</div>
+													</td>
 												</tr>
-												
+												{% endfor %}
 											</tbody>
-											{% endfor %}
 										</table>
-									</div>
 									</div>
 								</div>
 							</div>
