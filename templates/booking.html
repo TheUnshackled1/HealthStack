@@ -194,54 +194,54 @@
                 </div> -->
                 <!-- /Schedule Header -->
 
-                <div class="schedule widget-boxed mt-33 mt-0">
-                  <div class="widget-boxed-header">
-                      <h4><i class="fa fa-calendar pr-3 padd-r-10"></i>Schedule an Appointment</h4>
+                <div class="card booking-schedule-card">
+                  <div class="card-header bg-primary text-white">
+                      <h4 class="mb-0"><i class="fa fa-calendar mr-2"></i>Schedule an Appointment</h4>
                   </div>
-
-                  <form method="post" action="{% url 'booking' pk=doctor.doctor_id %}" enctype="multipart/form-data">
-                    {% csrf_token %}
-                      <div class="agent-contact-form-sidebar">
-                          <div class="row">
-                              <div class="col-lg-6 col-md-12 book">
-                                  <label>Appointment Date</label>
-                                  <!-- <input type="date" name="appoint_date" id="reservation-date" data-lang="en" data-large-mode="true" data-min-year="2021" data-max-year="2025" data-id="datedropper-0" data-theme="my-style" class="form-control" > -->
-                                  <input type="date" name="appoint_date" id="reservation-date" data-large-mode="true" data-lock="from" data-theme="my-style" class="form-control"/>
-                                  
-                                </div>
-                              <div class="col-lg-6 col-md-12 book2">
-                                  <label>Appointment Time</label>
-                                  <input type="text" name="appoint_time" id="reservation-time" class="form-control" readonly="">
-                              </div>
-                              <div class="col-lg-6 col-md-12">
-                                <div class="form-group">
-                                  <label>Appointment Type</label>
-                                  <select
-                                    class="form-control select"
-                                    name="appointment_type"
-                                  >
-                                    <option value="checkup">checkup</option>
-                                    <option value="report">report</option>
-                                  </select>
-                                </div>
-                              </div>
-                              <div class="col-lg-12 col-md-12" style="padding-bottom: 10px;">
-                                <label>Message</label>
-                                <textarea placeholder="Message" name="message"></textarea>
-                              </div>
-
+                  <div class="card-body">
+                    <form method="post" action="{% url 'booking' pk=doctor.doctor_id %}" enctype="multipart/form-data">
+                      {% csrf_token %}
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label><i class="fas fa-calendar-alt text-primary mr-1"></i> Appointment Date <span class="text-danger">*</span></label>
+                            <input type="date" name="appoint_date" id="reservation-date" data-large-mode="true" data-lock="from" data-theme="my-style" class="form-control" required/>
                           </div>
-                          <div class="submit-section">
-                            <button
-                              type="submit"
-                              class="btn btn-primary submit-btn"
-                            >
-                              Submit Request
-                            </button>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label><i class="fas fa-clock text-primary mr-1"></i> Appointment Time <span class="text-danger">*</span></label>
+                            <input type="text" name="appoint_time" id="reservation-time" class="form-control" placeholder="Select time" readonly="" required>
                           </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label><i class="fas fa-stethoscope text-primary mr-1"></i> Appointment Type <span class="text-danger">*</span></label>
+                            <select class="form-control" name="appointment_type" required>
+                              <option value="checkup">Checkup</option>
+                              <option value="report">Report Review</option>
+                              <option value="follow-up">Follow-up</option>
+                              <option value="consultation">Consultation</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <!-- Empty column for alignment -->
+                        </div>
+                        <div class="col-md-12">
+                          <div class="form-group">
+                            <label><i class="fas fa-comment-alt text-primary mr-1"></i> Message (Optional)</label>
+                            <textarea class="form-control" placeholder="Describe your symptoms or reason for visit..." name="message" rows="4" style="resize: vertical;"></textarea>
+                          </div>
+                        </div>
                       </div>
-                  </form>
-
+                      <div class="text-right mt-3">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                          <i class="fas fa-paper-plane mr-2"></i>Submit Request
+                        </button>
+                      </div>
+                    </form>
+                  </div>
               </div>
               </div>
 
@@ -286,11 +286,11 @@
     </script>
   <!-- Time Dropper Script-->
     <script>
-      this.$('#reservation-time').timeDropper({
+      $('#reservation-time').timeDropper({
           setCurrentTime: false,
           meridians: true,
-          primaryColor: "blue",
-          borderColor: "blue",
+          primaryColor: "#007bff",
+          borderColor: "#007bff",
           minutesInterval: '15'
       });
     </script>

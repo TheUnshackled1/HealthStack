@@ -302,7 +302,19 @@ def patient_list(request):
     if request.user.is_hospital_admin:
         user = Admin_Information.objects.get(user=request.user)
     patients = Patient.objects.all()
-    return render(request, 'hospital_admin/patient-list.html', {'all': patients, 'admin': user})
+    
+    # Get appointments for each patient
+    patient_data = []
+    for patient in patients:
+        appointments = Appointment.objects.filter(patient=patient).filter(
+            appointment_status__in=['pending', 'confirmed']
+        ).order_by('-date')
+        patient_data.append({
+            'patient': patient,
+            'appointments': appointments
+        })
+    
+    return render(request, 'hospital_admin/patient-list.html', {'patient_data': patient_data, 'admin': user})
 
 @csrf_exempt
 @login_required(login_url='admin_login')

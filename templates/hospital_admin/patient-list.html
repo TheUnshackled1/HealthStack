@@ -80,65 +80,92 @@
 										<table class="datatable table table-hover table-center mb-0 table-striped">
 											<thead class="thead-light">
 												<tr>
-													<th class="text-center" style="width: 80px;">ID</th>
-													<th style="min-width: 180px;">Patient Name</th>
-													<th class="text-center" style="width: 80px;">Age</th>
-													<th style="min-width: 200px;">Address</th>
-													<th class="text-center" style="width: 130px;">Phone</th>
-													<th class="text-center" style="width: 100px;">Blood Group</th>
-													<th class="text-center" style="width: 100px;">History</th>
-													<th class="text-center" style="width: 180px;">Actions</th>
+													<th class="text-center" style="width: 60px;">ID</th>
+													<th style="min-width: 160px;">Patient Name</th>
+													<th class="text-center" style="width: 60px;">Age</th>
+													<th style="min-width: 180px;">Address</th>
+													<th class="text-center" style="width: 110px;">Phone</th>
+													<th class="text-center" style="width: 80px;">Blood</th>
+													<th style="min-width: 200px;">Appointments</th>
+													<th class="text-center" style="width: 150px;">Actions</th>
 												</tr>
 											</thead>
 											<tbody>
-												{%for patient in all%}
+												{% for item in patient_data %}
 												<tr>
 													<td class="text-center">
-														<span class="badge badge-primary">#{{patient.patient_id}}</span>
+														<span class="badge badge-primary">#{{item.patient.patient_id}}</span>
 													</td>
 													<td>
 														<h2 class="table-avatar">
-															<a href="{% url 'create-invoice' pk=patient.patient_id %}" class="avatar avatar-sm mr-2">
-																<img class="avatar-img rounded-circle" src="{{patient.featured_image.url}}" alt="User Image">
+															<a href="{% url 'create-invoice' pk=item.patient.patient_id %}" class="avatar avatar-sm mr-2">
+																<img class="avatar-img rounded-circle" src="{{item.patient.featured_image.url}}" alt="User Image">
 															</a>
 															<div>
-																<a href="{% url 'create-invoice' pk=patient.patient_id %}"><strong>{{patient.name}}</strong></a>
-																<span class="d-block text-muted" style="font-size: 12px;">{{patient.email}}</span>
+																<a href="{% url 'create-invoice' pk=item.patient.patient_id %}"><strong>{{item.patient.name}}</strong></a>
+																<span class="d-block text-muted" style="font-size: 11px;">{{item.patient.email}}</span>
 															</div>
 														</h2>
 													</td>
 													<td class="text-center">
-														<span class="badge badge-light">{{patient.age}} yrs</span>
+														<span class="badge badge-light">{{item.patient.age}}</span>
 													</td>
-													<td>
+													<td style="font-size: 12px;">
 														<i class="fas fa-map-marker-alt text-danger mr-1"></i>
-														{{patient.address}}
+														{{item.patient.address}}
+													</td>
+													<td class="text-center" style="font-size: 12px;">
+														{{item.patient.phone_number}}
 													</td>
 													<td class="text-center">
-														<i class="fas fa-phone text-success mr-1"></i>
-														{{patient.phone_number}}
-													</td>
-													<td class="text-center">
-														{% if patient.blood_group %}
-														<span class="badge badge-danger">{{patient.blood_group}}</span>
+														{% if item.patient.blood_group %}
+														<span class="badge badge-danger">{{item.patient.blood_group}}</span>
 														{% else %}
-														<span class="text-muted">N/A</span>
+														<span class="text-muted">-</span>
 														{% endif %}
 													</td>
-													<td class="text-center">
-														{% if patient.history and patient.history != 'No' and patient.history != 'None' and patient.history != '' %}
-														<span class="badge badge-info" title="{{patient.history}}">Yes</span>
+													<td>
+														{% if item.appointments %}
+														<div style="max-height: 80px; overflow-y: auto;">
+															{% for apt in item.appointments %}
+															<div class="mb-1 p-1" style="background: #f8f9fa; border-radius: 4px; font-size: 11px;">
+																<div class="d-flex justify-content-between align-items-center">
+																	<span>
+																		<i class="fas fa-calendar-alt text-primary mr-1"></i>
+																		<strong>{{apt.date}}</strong>
+																	</span>
+																	{% if apt.appointment_status == 'confirmed' %}
+																	<span class="badge badge-success" style="font-size: 10px;">Confirmed</span>
+																	{% else %}
+																	<span class="badge badge-warning" style="font-size: 10px;">Pending</span>
+																	{% endif %}
+																</div>
+																<div class="text-muted">
+																	Dr. {{apt.doctor.name}} ({{apt.appointment_type}})
+																</div>
+																<div>
+																	{% if apt.payment_status == 'Paid' or apt.payment_status == 'VALID' %}
+																	<span class="badge badge-success" style="font-size: 10px;"><i class="fas fa-check"></i> Paid</span>
+																	{% elif apt.payment_status == 'Partial' %}
+																	<span class="badge badge-info" style="font-size: 10px;">Partial</span>
+																	{% else %}
+																	<span class="badge badge-danger" style="font-size: 10px;">Unpaid</span>
+																	{% endif %}
+																</div>
+															</div>
+															{% endfor %}
+														</div>
 														{% else %}
-														<span class="badge badge-light text-muted">None</span>
+														<span class="text-muted" style="font-size: 12px;">No appointments</span>
 														{% endif %}
 													</td>
 													<td class="text-center">
 														<div class="table-action">
-															<a href="{% url 'create-invoice' pk=patient.patient_id %}" class="btn btn-sm bg-success-light mr-1" title="Create Invoice">
+															<a href="{% url 'create-invoice' pk=item.patient.patient_id %}" class="btn btn-sm bg-success-light mb-1" title="Create Invoice">
 																<i class="fas fa-file-invoice-dollar"></i> Invoice
 															</a>
-															<a href="{% url 'prescription-list' pk=patient.patient_id %}" class="btn btn-sm bg-info-light" title="View Prescriptions">
-																<i class="fas fa-prescription"></i>
+															<a href="{% url 'prescription-list' pk=item.patient.patient_id %}" class="btn btn-sm bg-info-light" title="View Prescriptions">
+																<i class="fas fa-prescription"></i> Rx
 															</a>
 														</div>
 													</td>
