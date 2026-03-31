@@ -205,13 +205,13 @@
                         <div class="col-md-6">
                           <div class="form-group">
                             <label><i class="fas fa-calendar-alt text-primary mr-1"></i> Appointment Date <span class="text-danger">*</span></label>
-                            <input type="date" name="appoint_date" id="reservation-date" data-large-mode="true" data-lock="from" data-theme="my-style" class="form-control" required/>
+                            <input type="date" name="appoint_date" id="reservation-date" class="form-control" required/>
                           </div>
                         </div>
                         <div class="col-md-6">
                           <div class="form-group">
                             <label><i class="fas fa-clock text-primary mr-1"></i> Appointment Time <span class="text-danger">*</span></label>
-                            <input type="text" name="appoint_time" id="reservation-time" class="form-control" placeholder="Select time" readonly="" required>
+                            <input type="time" name="appoint_time" id="reservation-time" class="form-control" required>
                           </div>
                         </div>
                         <div class="col-md-6">
@@ -275,25 +275,6 @@
 
     <!-- Custom JS -->
     <script src="{% static 'HealthStack-System/Outside_assets/js/script.js' %}"></script>
-
-    <!-- booking js -->
-    <script src="{% static 'HealthStack-System/js/Normal/timedropper.js' %}"></script>
-    <script src="{% static 'HealthStack-System/js/Normal/date_dropper.js' %}"></script>
-
-    <!-- Date Dropper Script-->
-    <script>
-      $('#reservation-date').dateDropper();
-    </script>
-  <!-- Time Dropper Script-->
-    <script>
-      $('#reservation-time').timeDropper({
-          setCurrentTime: false,
-          meridians: true,
-          primaryColor: "#007bff",
-          borderColor: "#007bff",
-          minutesInterval: '15'
-      });
-    </script>
 
     <script>
       $(document).ready(function() {
