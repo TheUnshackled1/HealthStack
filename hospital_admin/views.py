@@ -1226,12 +1226,20 @@ def mypatient_list(request):
 @login_required(login_url='admin-login')
 def prescription_list(request,pk):
     if request.user.is_authenticated:
+        patient = Patient.objects.get(patient_id=pk)
+        prescription = Prescription.objects.filter(patient=patient)
+        
         if request.user.is_labworker:
             lab_workers = Clinical_Laboratory_Technician.objects.get(user=request.user)
-            patient = Patient.objects.get(patient_id=pk)
-            prescription = Prescription.objects.filter(patient=patient)
-            context = {'prescription': prescription,'lab_workers':lab_workers,'patient':patient}
-            return render(request, 'hospital_admin/prescription-list.html',context)
+            context = {'prescription': prescription, 'lab_workers': lab_workers, 'patient': patient}
+            return render(request, 'hospital_admin/prescription-list.html', context)
+        elif request.user.is_hospital_admin:
+            admin = Admin_Information.objects.get(user=request.user)
+            context = {'prescription': prescription, 'admin': admin, 'patient': patient}
+            return render(request, 'hospital_admin/prescription-list.html', context)
+        else:
+            return redirect('admin-login')
+    return redirect('admin-login')
 
 @csrf_exempt
 @login_required(login_url='admin-login')
