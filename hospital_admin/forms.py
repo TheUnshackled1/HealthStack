@@ -2,7 +2,7 @@ from django.forms import ModelForm
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from hospital.models import User, Hospital_Information
-from .models import Admin_Information, Clinical_Laboratory_Technician
+from .models import Admin_Information, Clinical_Laboratory_Technician, hospital_department
 
 class AdminUserCreationForm(UserCreationForm):
     class Meta:
@@ -111,4 +111,21 @@ class AdminForm(ModelForm):
 
          for name, field in self.fields.items():
              field.widget.attrs.update({'class': 'form-control'})
+
+
+class AddDepartmentForm(forms.ModelForm):
+    class Meta:
+        model = hospital_department
+        fields = ['hospital_department_name', 'hospital', 'featured_image']
+
+    def __init__(self, *args, **kwargs):
+        super(AddDepartmentForm, self).__init__(*args, **kwargs)
+
+        for name, field in self.fields.items():
+            field.widget.attrs.update({'class': 'form-control'})
+        
+        self.fields['hospital_department_name'].label = 'Department Name'
+        self.fields['hospital'].label = 'Select Hospital'
+        self.fields['featured_image'].label = 'Department Image (Optional)'
+
 

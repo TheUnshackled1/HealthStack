@@ -15,7 +15,7 @@ from pharmacy.models import Medicine, Pharmacist
 from doctor.models import Doctor_Information, Prescription, Prescription_test, Report, Appointment, Experience , Education,Specimen,Test, testOrder
 from pharmacy.models import Order, Cart
 from sslcommerz.models import Payment
-from .forms import AdminUserCreationForm, LabWorkerCreationForm, EditHospitalForm, EditEmergencyForm,AdminForm , PharmacistCreationForm 
+from .forms import AdminUserCreationForm, LabWorkerCreationForm, EditHospitalForm, EditEmergencyForm,AdminForm , PharmacistCreationForm, AddDepartmentForm 
 
 from .models import Admin_Information,specialization,service,hospital_department, Clinical_Laboratory_Technician, Test_Information
 import random,re
@@ -1121,6 +1121,40 @@ def reject_doctor(request,pk):
     
     messages.success(request, 'Doctor Rejected!')
     return redirect('register-doctor-list')
+
+@csrf_exempt
+@login_required(login_url='admin_login')
+def add_department(request):
+    if request.user.is_authenticated:
+        if request.user.is_hospital_admin:
+            admin = Admin_Information.objects.get(user=request.user)
+            hospitals = Hospital_Information.objects.all()
+            form = AddDepartmentForm()
+            
+            if request.method == 'POST':
+                hospital_id = request.POST.get('hospital')
+                department_name = request.POST.get('hospital_department_name')
+                
+                if hospital_id and department_name:
+                    hospital = Hospital_Information.objects.get(hospital_id=hospital_id)
+                    
+                    department = hospital_department()
+                    department.hospital_department_name = department_name
+                    department.hospital = hospital
+                    
+                    if 'featured_image' in request.FILES:
+                        department.featured_image = request.FILES['featured_image']
+                    
+                    department.save()
+                    messages.success(request, f'Department "{department_name}" added to {hospital.name}!')
+                    return redirect('hospital-list')
+                else:
+                    messages.error(request, 'Please fill in all required fields.')
+            
+            context = {'admin': admin, 'hospitals': hospitals, 'form': form}
+            return render(request, 'hospital_admin/add-department.html', context)
+    
+    return redirect('admin_login')
 
 @csrf_exempt
 @login_required(login_url='admin_login')

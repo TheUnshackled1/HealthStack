@@ -51,6 +51,7 @@ urlpatterns = [
     # Removed: Doctor approval workflow (doctors are now auto-accepted on registration)
     # path('accept-doctor/<int:pk>/', views.accept_doctor,name='accept-doctor'),
     # path('reject-doctor/<int:pk>/', views.reject_doctor,name='reject-doctor'),
+    path('add-department/', views.add_department, name='add-department'),
     path('delete-department/<int:pk>',views.delete_department,name='delete-department'),
     path('edit-department/<int:pk>',views.edit_department,name='edit-department'),
     path('delete-specialization/<int:pk>/<int:pk2>/',views.delete_specialization,name='delete-specialization'),
