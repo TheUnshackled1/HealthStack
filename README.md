@@ -329,69 +329,45 @@ The application will be available at **http://127.0.0.1:8000/**
 
 ### 🏠 Home Page
 
-| Landing Page | Hospital Search |
-|:---:|:---:|
-| <img width="600" alt="Home Landing" src="https://github.com/user-attachments/assets/placeholder-home-1" /> | <img width="600" alt="Hospital Search" src="https://github.com/user-attachments/assets/placeholder-home-2" /> |
+| Landing Page |
+|:---:|
+| <img width="900" alt="Home Landing" src="screenshots/home_page.png" /> |
 
 ---
 
 ### 🧑‍⚕️ Patient
 
-| Login Page | Dashboard |
-|:---:|:---:|
-| <img width="600" alt="Patient Login" src="https://github.com/user-attachments/assets/placeholder-patient-login" /> | <img width="600" alt="Patient Dashboard" src="https://github.com/user-attachments/assets/placeholder-patient-dash" /> |
-
-| Book Appointment | Unified Billing |
-|:---:|:---:|
-| <img width="600" alt="Book Appointment" src="https://github.com/user-attachments/assets/placeholder-patient-book" /> | <img width="600" alt="Patient Billing" src="https://github.com/user-attachments/assets/placeholder-patient-bill" /> |
+| Login Page |
+|:---:|
+| <img width="900" alt="Patient Login" src="screenshots/patient_login.png" /> |
 
 ---
 
 ### 🩺 Doctor
 
-| Login Page | Dashboard |
-|:---:|:---:|
-| <img width="600" alt="Doctor Login" src="https://github.com/user-attachments/assets/placeholder-doctor-login" /> | <img width="600" alt="Doctor Dashboard" src="https://github.com/user-attachments/assets/placeholder-doctor-dash" /> |
-
-| Appointment Management | Prescription View |
-|:---:|:---:|
-| <img width="600" alt="Doctor Appointments" src="https://github.com/user-attachments/assets/placeholder-doctor-appt" /> | <img width="600" alt="Prescription" src="https://github.com/user-attachments/assets/placeholder-doctor-rx" /> |
+| Login Page |
+|:---:|
+| <img width="900" alt="Doctor Login" src="screenshots/doctor_login.png" /> |
 
 ---
 
 ### 🏛️ Hospital Admin
 
-| Login Page | Dashboard |
-|:---:|:---:|
-| <img width="600" alt="Admin Login" src="https://github.com/user-attachments/assets/placeholder-admin-login" /> | <img width="600" alt="Admin Dashboard" src="https://github.com/user-attachments/assets/placeholder-admin-dash" /> |
-
-| Bed Tracking | Billing Records |
-|:---:|:---:|
-| <img width="600" alt="Bed Tracking" src="https://github.com/user-attachments/assets/placeholder-admin-beds" /> | <img width="600" alt="Billing Records" src="https://github.com/user-attachments/assets/placeholder-admin-bill" /> |
+| Login Page |
+|:---:|
+| <img width="900" alt="Staff / Admin / Lab / Pharmacist Login" src="screenshots/staff_login.png" /> |
 
 ---
 
 ### 💊 Pharmacist & Pharmacy
 
-| Login Page | Dashboard |
-|:---:|:---:|
-| <img width="600" alt="Pharmacist Login" src="https://github.com/user-attachments/assets/placeholder-pharma-login" /> | <img width="600" alt="Pharmacist Dashboard" src="https://github.com/user-attachments/assets/placeholder-pharma-dash" /> |
-
-| Medicine Inventory | Order Management |
-|:---:|:---:|
-| <img width="600" alt="Medicine Inventory" src="https://github.com/user-attachments/assets/placeholder-pharma-inv" /> | <img width="600" alt="Order Management" src="https://github.com/user-attachments/assets/placeholder-pharma-ord" /> |
+> **Login shared with Hospital Admin & Lab Worker** — see Staff Login above (`/hospital_admin/`)
 
 ---
 
 ### 🔬 Lab Worker
 
-| Login Page | Dashboard |
-|:---:|:---:|
-| <img width="600" alt="Lab Worker Login" src="https://github.com/user-attachments/assets/placeholder-lab-login" /> | <img width="600" alt="Lab Worker Dashboard" src="https://github.com/user-attachments/assets/placeholder-lab-dash" /> |
-
-| Test Management | Report Generation |
-|:---:|:---:|
-| <img width="600" alt="Test Management" src="https://github.com/user-attachments/assets/placeholder-lab-tests" /> | <img width="600" alt="Report Generation" src="https://github.com/user-attachments/assets/placeholder-lab-rep" /> |
+> **Login shared with Hospital Admin & Pharmacist** — see Staff Login above (`/hospital_admin/`)
 
 ---
 
